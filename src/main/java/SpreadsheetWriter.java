@@ -10,8 +10,6 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.openxml4j.util.Nullable;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.FillPatternType;
-import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -71,10 +69,11 @@ public class SpreadsheetWriter {
 			}
 			if (data.getKey().equals("TOTAL")) {
 				new WriteCell.WriteCellBuilder(workbook, sheet, row, 1).value(data.getValue()).cellStyleDataType(WriteCell.DataType.NumericDecimal).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.RED.getIndex()).height(12).bold(true).build().getFont()).build();
-			}			
+			}
+			sheet.autoSizeColumn(column + 2);
 			column++;
 		}
-		setMetadataModifiedDate();
+		setMetadataModifiedDate();		
 	}
 	
 	private void setMetadataModifiedDate() {
