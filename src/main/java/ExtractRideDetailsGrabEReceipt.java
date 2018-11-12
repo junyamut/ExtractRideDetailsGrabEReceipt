@@ -26,7 +26,7 @@ public class ExtractRideDetailsGrabEReceipt {
 	SpreadsheetTemplate template;
 
 	public ExtractRideDetailsGrabEReceipt() throws IOException {
-		createPath(OUTPUT_DIR, WORKBOOK_NAME);
+		createOutputPath(OUTPUT_DIR, WORKBOOK_NAME);
 		template = new SpreadsheetTemplate();		
 		try {
 			if (!Files.exists(workbookPath)) {
@@ -75,7 +75,7 @@ public class ExtractRideDetailsGrabEReceipt {
 		writeWorkbook();
 	}
 	
-	private void createPath(String sourceDir, String workbookName) throws IOException {
+	private void createOutputPath(String sourceDir, String workbookName) throws IOException {
 		Path dir = Paths.get(sourceDir);
 		try {
 			if (!Files.isDirectory(dir)) {
