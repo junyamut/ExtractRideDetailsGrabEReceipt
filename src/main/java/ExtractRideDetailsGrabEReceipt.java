@@ -45,7 +45,7 @@ public class ExtractRideDetailsGrabEReceipt {
 		return filesList.getList();
 	}
 	
-	private void extract() throws IOException, ParseException {
+	private void extract() throws IOException {
 		Path outputPath = Paths.get(System.getProperty("user.dir"), OUTPUT_DIR, WORKBOOK_NAME);
 		FileInputStream fileInputStream = new FileInputStream(new File(outputPath.toString()));
 		workbook = new XSSFWorkbook(fileInputStream);
@@ -63,7 +63,11 @@ public class ExtractRideDetailsGrabEReceipt {
 			EReceipt eReceipt = new EReceipt(document);
 			Row row = sheet.createRow(startRow);
 			writer = new SpreadsheetWriter(workbook, sheet, row, eReceipt.getMap());
-			writer.writeData();
+			try {
+				writer.writeData();
+			} catch (ParseException e) {
+				System.out.println("Error encountered when parsing data: " + e.getMessage());
+			}
 			startRow++;
 			System.out.println("--------------------------------");
 		}
