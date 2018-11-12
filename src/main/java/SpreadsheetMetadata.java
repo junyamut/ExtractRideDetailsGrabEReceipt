@@ -17,6 +17,8 @@ public class SpreadsheetMetadata {
 	
 	public SpreadsheetMetadata(POIXMLProperties properties) {
 		this.properties = properties;
+		this.core = properties.getCoreProperties();
+		this.custom = properties.getCustomProperties();
 	}
 	
 	public SpreadsheetMetadata(SpreadsheetMetadataBuilder builder) {
