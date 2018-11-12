@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -44,7 +45,7 @@ public class ExtractRideDetailsGrabEReceipt {
 		return filesList.getList();
 	}
 	
-	private void extract() throws Exception {
+	private void extract() throws IOException, ParseException {
 		Path outputPath = Paths.get(System.getProperty("user.dir"), OUTPUT_DIR, WORKBOOK_NAME);
 		FileInputStream fileInputStream = new FileInputStream(new File(outputPath.toString()));
 		workbook = new XSSFWorkbook(fileInputStream);
@@ -67,6 +68,7 @@ public class ExtractRideDetailsGrabEReceipt {
 			System.out.println("--------------------------------");
 		}
 		writeWorkbook();
+		fileInputStream.close();
 	}
 	
 	private void createSpreadsheetTemplate() throws IOException {
@@ -92,6 +94,7 @@ public class ExtractRideDetailsGrabEReceipt {
 			FileOutputStream fileOutputStream = new FileOutputStream(workbookPath.toString());
 			workbook.write(fileOutputStream);
 			workbook.close();
+			fileOutputStream.close();
 		} catch (IOException | EncryptedDocumentException e) {
 			System.out.println("Cannot write to file: " + e.getMessage());
 		}
