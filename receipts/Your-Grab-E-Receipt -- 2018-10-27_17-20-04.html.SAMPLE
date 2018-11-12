@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
+  <title></title>
+  <style type="text/css">
+    a {
+      color: #0085c3;
+      text-decoration: none;
+    }
+
+    p {
+      margin: 1em 0;
+    }
+
+    #outlook a {
+      padding: 0;
+    }
+
+    body {
+      width: 100% !important;
+    }
+
+    .ReadMsgBody {
+      width: 100%;
+    }
+
+    .ExternalClass {
+      width: 100%;
+    }
+
+    body {
+      -webkit-text-size-adjust: none;
+      -ms-text-size-adjust: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    img {
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
+    }
+
+    @media only screen and (max-width: 480px) {
+      table[class=per100] {
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100% !important;
+        height: auto !important;
+      }
+      table[class=borderPerTab] {
+        position: relative;
+        top: 0;
+        left: 0px;
+        right: 0px;
+        width: 98% !important;
+        height: auto !important;
+      }
+      table[class=borderPerTab90] {
+        position: relative;
+        top: 0;
+        left: 0px;
+        right: 0px;
+        width: 90% !important;
+        height: auto !important;
+      }
+      td[class=tdp5] {
+        padding: 0px 5px !important;
+      }
+      td[class=td_pad] {
+        width: 10px !important;
+      }
+      td[class=colsplit] {
+        width: 100% !important;
+        float: left !important;
+      }
+      td[class=colsplitAL] {
+        text-align: left;
+        width: 100% !important;
+        float: left !important;
+      }
+      td[class=per50] {
+        width: 50% !important;
+        float: left !important;
+      }
+      img[class=imgPer50] {
+        width: 50% !important;
+      }
+      td[class=menuTd] {
+        width: 100% !important;
+        float: left !important;
+        font-size: 14px !important;
+        height: 24px !important;
+        line-height: 24px !important;
+        border-bottom: 1px solid #ffffff !important;
+      }
+      td[class=menuTdlast] {
+        width: 100% !important;
+        float: left !important;
+        font-size: 14px !important;
+        height: 24px !important;
+        line-height: 24px !important;
+        border-bottom: noe !important;
+      }
+      td[class=texC] {
+        text-align: center !important;
+        clear: both !important;
+      }
+      td[class=email_box] {
+        width: 100% !important;
+        float: left !important;
+      }
+      td[class=produceTd] {
+        width: 100% !important;
+        float: left !important;
+        text-align: center !important;
+        padding: 0px;
+      }
+      td[class=produceTdW] {
+        width: 100% !important;
+        float: left !important;
+        border-bottom: 1px solid #ffffff !important;
+      }
+      td[class=produceTdLast] {
+        width: 100% !important;
+        float: left !important;
+        padding: 10px 0px !important;
+        text-align: center !important;
+      }
+      img[class=tel] {
+        width: 100% !important;
+        height: auto !important;
+      }
+      img[class=produceImg] {
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+      }
+      img[class=footerMenu] {
+        width: 100% !important;
+        height: auto !important;
+        display: block !important;
+      }
+      table[class=noneMobile],
+      tr[class=noneMobile],
+      td[class=noneMobile],
+      img[class=noneMobile],
+      span[class=noneMobile] {
+        display: none !important;
+      }
+      table[class=showMobile],
+      tr[class=showMobile],
+      td[class=showMobile],
+      img[class=showMobile],
+      span[class=showMobile] {
+        display: block !important;
+      }
+      td[class=vspacer15],
+      img[class=vspacer15] {
+        width: 15px !important;
+      }
+      td[class=vspacer10],
+      img[class=vspacer10] {
+        width: 10px !important;
+      }
+      td[class=vspacer5],
+      img[class=vspacer5] {
+        width: 5px !important;
+      }
+      img[class=imgReplaceBox01] {
+        width: 100% !important;
+        height: 7px !important;
+        column-span: all !important;
+      }
+      td[class=colsplit] {
+        width: 100% !important;
+        float: left !important;
+      }
+      td[class=colsplitSpacer] {
+        width: 100% !important;
+        height: 10px !important;
+        float: left !important;
+      }
+      table[class=tabCenter] {
+        width: 100% !important;
+      }
+      /*---*/
+    }
+  </style>
+</head>
+
+<body style="-webkit-text-size-adjust:none; font-family: 'Helvetica', Arial, sans-serif">
+  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td align="center" valign="top">
+        <table width="600" align="center" border="0" cellspacing="0" cellpadding="0" class="borderPerTab" style="border:1px solid #EDEDED">
+          <tr>
+            <td bgcolor="#ffffff">
+              <!--height 25-->
+              <!--height 20-->
+
+              <!----Logo---->
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>
+                    <img class="produceImg" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_logo_ereceipt.png" width="600" height="137"
+                      alt="E-receipt Singapore" style="border:0;" />
+                  </td>
+                </tr>
+              </table>
+              <!----Content---->
+              <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+
+                <tr>
+                  <td valign="top" class="vspacer15" width="45"></td>
+                  <td valign="top" style="font-family: Helvetica, 'Arial', sans-serif; color:#000000; font-size:11px;-webkit-text-size-adjust:none;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td height="15">
+                          <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                            alt="" width="20" height="15" border="0">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" style=" font-family: Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none; color:#00af41; font-size:20px; line-height:24px; font-weight: bold; line-height:26px; text-align:left;">
+                          Hope you had an enjoyable ride!
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td height="15">
+                          <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                            alt="" width="20" height="15" border="0">
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="44%" align="left" valign="top" class="produceTdLast" style="font-size:12px; line-height:21px; font-weight:bold;">TOTAL
+                                <br />
+                                <span style="font-size:28px; line-height:32px; font-weight:bold; color:#00af41">P 417.00</span>
+                              </td>
+                              <td width="56%" align="left" valign="top" class="produceTdLast" style="font-size:12px; line-height:21px; font-weight:bold;">DATE&nbsp;&nbsp;|&nbsp; TIME
+                                <br /> Pick-up time:
+                                <span style="font-size:12px; font-weight:bold; color:#00af41">27 Oct 18 16:13 +0800</span>
+                              </td>
+                          </table>
+
+                          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                              <td height="12">
+                                <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                  alt="" width="20" height="12" border="0">
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        </tr>
+
+                    </table>
+                  </td>
+                  <td valign="top" class="vspacer15" width="45"></td>
+                  </tr>
+              </table>
+
+
+              <!----Receipt---->
+
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td height="5">
+                    <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt=""
+                      width="10" height="5" border="0">
+                  </td>
+                </tr>
+              </table>
+
+              <!----Receipt---->
+              <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#f4f4f4">
+                <tr>
+                  <td valign="top" class="vspacer15" width="45">
+                    <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt="" width="20" height="10"
+                      border="0" />
+                  </td>
+                  <td align="center" valign="top">
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                      <tr>
+                        <td align="left" height="20"></td>
+                      </tr>
+                    </table>
+                    <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                      <tr>
+                        <td width="55%" align="left" style="font-size:14px; font-weight:bold; color:#00af41"></td>
+                      </tr>
+                    </table>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td valign="top" width="207" style="max-width:207px; display: block" class="produceTd">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td align="left" valign="top" class="tdp5" style="font-size:14px; font-weight:bold; color:#00af41">Booking Details</td>
+                            </tr>
+                            <tr>
+                              <td align="center" valign="middle" height="10" class="img_1">
+                                <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt="" width="170" height="10"
+                                  border="0">
+                              </td>
+                            </tr>
+                            <tr>
+                              <td valign="top">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                  <tr>
+                                    <td align="left" valign="top" style="padding:0cm 0cm 0cm 0cm;">
+                                      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                          <td class="t3_1" valign="top">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style="font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:16px;">Vehicle type:</span>
+                                                        <br/>
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold">GrabShare</span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt="" width="20" height="3"
+                                                    border="0">
+                                                </td>
+                                              </tr>
+
+                                              
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style="font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal; color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:14px;">Issued by driver</span>
+                                                        <br />
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold">Roel</span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt="" width="20" height="3"
+                                                    border="0">
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal; font-size:12px; line-height:16px; color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:16px;">Issued to</span>
+                                                        <br/>
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold">Joe</span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt="" width="20" height="5"
+                                                    border="0">
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style="font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:16px;">Booking code</span>
+                                                        <br/>
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold">ADR-86721979</span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt="" width="20" height="5"
+                                                    border="0">
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style="font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:16px;">Pick up location:</span>
+                                                        <br />
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold;">Taguig, Metro Manila, NCR, 1634 </span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                                    alt="" width="20" height="5" border="0">
+                                                </td>
+                                              </tr>
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style="font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:16px;">Drop off location:</span>
+                                                        <br />
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold">Parañaque, Metro Manila, NCR, 1700</span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                                    alt="" width="20" height="5" border="0">
+                                                </td>
+                                              </tr>
+
+                                              
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style="font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:10px; color:#9E9E9E; line-height:16px;">Tag:</span>
+                                                        <br />
+                                                        <span style="font-size:12px; line-height:16px; font-weight:bold">PERSONAL</span>
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+                                              <tr>
+                                                <td height="3">
+                                                  <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                                    alt="" width="20" height="3" border="0">
+                                                </td>
+                                              </tr>
+                                                
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                        <td valign="top" class="noneMobile" width="9">
+                          <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                            alt="" width="9" height="10" border="0">
+                        </td>
+                        <td valign="top" class="noneMobile" width="10" bgcolor="#f5f5f3">
+                          <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                            alt="" width="10" height="10" border="0">
+                        </td>
+                        <td valign="top" width="280" style="max-width:280px" class="produceTd">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td align="left" valign="top" class="tdp5" style="font-size:14px; font-weight:bold; color:#00af41">Receipt Summary</td>
+                            </tr>
+                            <tr>
+                              <td align="center" valign="middle" height="10" class="img_1">
+                                <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                  alt="" width="170" height="10" border="0">
+                              </td>
+                            </tr>
+
+                            <tr>
+                              <td valign="top">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="border:1px solid #dddddd">
+                                  <tr>
+                                    <td align="left" valign="top" style="padding:0cm 0cm 0cm 0cm;">
+
+                                      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <tr>
+                                          <td class="t3_1" valign="top">
+                                            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td height="10px" align="left" class="tdp5"></td>
+                                                      <td height="10px" colspan="2" align="left" class="tdp5"></td>
+                                                      <td height="10px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="5px" align="left" class="tdp5"></td>
+                                                      <td height="5px" colspan="2" align="left" class="tdp5" style="font-size:11px; line-height:18px; font-family:''Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; font-weight:normal; color:#9E9E9E">
+                                                        Payment Method:
+                                                        <br />
+                                                        <span style="font-weight:bold; color:#000000;">Cash &nbsp;&nbsp;</span>
+                                                      </td>
+                                                      <td height="5px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="5px" align="left" class="tdp5"></td>
+                                                      <td height="5px" colspan="2" align="left" class="tdp5"></td>
+                                                      <td height="5px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="3px" align="left" class="tdp5"></td>
+                                                      <td height="3px" colspan="2" align="left" class="tdp5" style="border-top:1px dashed #9E9E9E"></td>
+                                                      <td height="3px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td width="171" align="left" class="tdp5" style="font-family:''Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#9E9E9E; line-height:21px;">Description:</span>
+                                                      </td>
+                                                      <td width="80" align="left" class="tdp5" style=" font-family:''Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#9E9E9E; line-height:28px;">&nbsp;&nbsp;Amount:</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="3px" align="left" class="tdp5"></td>
+                                                      <td height="3px" colspan="2" align="left" class="tdp5"></td>
+                                                      <td height="3px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="5px" align="left" class="tdp5"></td>
+                                                      <td height="5px" colspan="2" align="left" class="tdp5" style="border-top:1px dashed #9E9E9E"></td>
+                                                      <td height="5px" align="left" class="tdp5"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">Base Fare</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">&nbsp;&nbsp;P 40.00 </span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                    
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">Distance</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">&nbsp;&nbsp;P 233.80
+                                                          </span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">Time</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">&nbsp;&nbsp;P 140.00
+                                                          </span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                     
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">Surge Charges</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">&nbsp;&nbsp;P 196.20
+                                                          </span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                      
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">Share Discount</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">-&nbsp;P 143.00
+                                                          </span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                      
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">Promotion</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:11px; color:#000000; line-height:18px;">-&nbsp;P 50.00 </span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+                                                       
+                                                    <tr>
+                                                      <td height="10px" align="left" class="tdp5"></td>
+                                                      <td height="10px" colspan="2" align="left" class="tdp5"></td>
+                                                      <td height="10px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td height="10px" align="left" class="tdp5"></td>
+                                                      <td height="10px" colspan="2" align="left" class="tdp5" style="border-top:1px dashed #9E9E9E"></td>
+                                                      <td height="10px" align="left" class="tdp5"></td>
+                                                    </tr>
+                                                    <tr>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                      <td align="right" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:12px; font-weight:bolder; color:#000000; line-height:28px;">TOTAL&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <span style="font-size:12px; font-weight:bolder; color:#000000; line-height:28px;">&nbsp;&nbsp;P 417.00</span>
+                                                      </td>
+                                                      <td align="left" class="tdp5" width="15"></td>
+                                                    </tr>
+
+                                                  </table>
+                                                </td>
+                                              </tr>
+
+
+                                              <tr>
+                                                <td align="left" valign="top" class="tdp5">
+                                                  <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                                    <tr>
+                                                      <td align="left" class="tdp5" style=" font-family:'Helvetica, 'Arial', sans-serif;-webkit-text-size-adjust:none;font-weight:normal;color:#000000;">
+                                                        <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                                          alt="" width="20" height="10" border="0">
+                                                      </td>
+                                                    </tr>
+                                                  </table>
+                                                </td>
+                                              </tr>
+
+                                            </table>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                      <tbody>
+                        <tr>
+                          <td height="20"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </td>
+                  <td valign="top" class="vspacer15" width="45">
+                    <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt=""
+                      width="20" height="10" border="0">
+                  </td>
+                </tr>
+              </table>
+
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td height="20">
+                    <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt=""
+                      width="10" height="30" border="0">
+                  </td>
+                </tr>
+              </table>
+
+              <!--Footer-->
+              <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff" style="border-bottom:1px solid #CBCBCB;">
+                <tr>
+                  <td valign="top" class="vspacer15" width="45"></td>
+                  <td valign="top" style="font-family:  'Helvetica', Arial, sans-serif; color:#000000; font-size:11px;-webkit-text-size-adjust:none;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="left" style=" font-family:  'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; text-align:center;">
+
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td align="left" style=" font-family:  'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; text-align:center;">
+
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td valign="top" class="noneMobile" width="10px">
+                                <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                  alt="" width="3" height="10" border="0">
+                              </td>
+                              <td valign="top" width="1px" bgcolor="#ffffff" class="noneMobile"></td>
+                              <td valign="top" class="noneMobile" width="10px">
+                                <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif"
+                                  alt="" width="3" height="10" border="0">
+                              </td>
+                              <td width="243px" align="left" valign="top" class="produceTdLast" style="font-family:'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; color:#666666">
+
+                                <a target="_blank" href="http://www.grab.com/ph/work/?utm_source=E-Receipt&utm_medium=&utm_campaign=GC_PAX_BizTag&utm_term=&utm_content="
+                                  style="font-size:12px; line-height:18px; font-weight: bold; color:#009d3b; text-decoration: none;">
+                                  <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0">
+                                    <tr>
+                                      <td width="18%" align="right" valign="top">
+                                        <img max-width="37px" height="32px" src="https://gallery.mailchimp.com/844e1ae3a7038f243708b1137/images/c8eaf88a-5df2-4e19-9239-792a6d27eafd.png"
+                                          style="margin-top: 4px;">
+                                      </td>
+                                      <td width="82%" align="left" valign="top">
+                                        Stay organised!
+                                        <br />
+                                        <span style="font-size:10px; font-weight: normal; line-height:16px; color:#666666;">Tag your rides as Personal or Business in the app and manage all your e-receipts
+                                          online when you log in to grab.com/work
+                                          <br />
+
+                                        </span>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </a>
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="20"></td>
+                      </tr>
+
+
+                    </table>
+                  </td>
+                  <td valign="top" class="vspacer15" width="45"></td>
+                </tr>
+              </table>
+              <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td height="20">
+                    <img style="display:block;" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/_blank.gif" alt=""
+                      width="10" height="20" border="0">
+                  </td>
+                </tr>
+              </table>
+
+              <!--Footer-->
+              <table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" bgcolor="#ffffff">
+                <tr>
+                  <td valign="top" class="vspacer15" width="45"></td>
+                  <td valign="top" style="font-family:  'Helvetica', Arial, sans-serif; color:#000000; font-size:11px;-webkit-text-size-adjust:none;">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td align="left" style=" font-family:  'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; text-align:center;"></td>
+                      </tr>
+                      <tr>
+                        <td align="left" style=" font-family:  'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; text-align:center;">
+                          <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                              <td width="55%" align="left" valign="top" class="produceTdLast" style="font-family:'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; color:#666666; padding-right:10%;">
+                                <span style="color:#666666;">
+                                  <a href="https://help.grab.com/hc/fil" style="font-size:10px; line-height:12px; font-weight: bold; color:#666666;">Help Centre </a>
+                                </span>
+                                <br />
+                                <span style="color:#666666;">
+                                  <a href="https://help.grab.com/hc/fil/articles/115005446908" style="font-size:10px; line-height:12px; font-weight: bold; color:#666666;">Need help recovering a lost item?</a>
+                                </span>
+                                <br />
+                                <br />
+                                <span style="font-size:10px; font-weight: normal; line-height:16px">Copyright © 2018 GrabTaxi Holdings Pte. Ltd.
+                                  <br>All rights reserved.
+                                  <br />
+                                  <!View on>
+                                  <a href="#" style="color:#666666; text-decoration:underline; font-style:italic; line-height:21px;">
+                                    <!WEB>
+                                  </a>
+                                  <!--Click here to <a href="http://grab.com/unsubscribe.html{{unsubscribe_link_params}}" target="_blank" style="color:#666666; text-decoration:underline; font-style:italic">UNSUBSCRIBE</a>.<br />-->
+                                </span>
+                              </td>
+                              <td width="45%" align="left" valign="top" class="produceTdLast" style="font-family:'Helvetica', Arial, sans-serif;-webkit-text-size-adjust:none; color:#666666">
+                                <span style="font-size:10px; line-height:12px; font-weight:bold;">Stay connected with us.</span>
+                                <br />
+                                <br />
+                                <a target="_blank" href="https://www.facebook.com/GrabPH">
+                                  <img width="30px" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/icon-fb.png"
+                                    target="_blank" />
+                                </a>&nbsp;&nbsp;
+                                <a target="_blank" href="https://twitter.com/GrabPH">
+                                  <img width="30px" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/icon-twitter.png"
+                                    target="_blank" />
+                                </a>&nbsp;&nbsp;
+                                <a target="_blank" href="https://instagram.com/Grab_PH">
+                                  <img width="30px" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/icon-instagram.png"
+                                    target="_blank" />
+                                </a>&nbsp;&nbsp;
+                                <a target="_blank" href="https://www.linkedin.com/company/grabapp/">
+                                  <img width="30px" src="https://grabtaxi-marketing.s3.amazonaws.com/email/img/icon-linkedin.png"
+                                    target="_blank" />
+                                </a>
+                                <br />
+                                <br />
+                              </td>
+                            </tr>
+                          </table>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td height="20"></td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td valign="top" class="vspacer15" width="45"></td>
+                </tr>
+              </table>
+            </td>
+            </tr>
+        </table>
+      </td>
+      </tr>
+  </table>
+</body>
+
+</html>
