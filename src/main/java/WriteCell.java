@@ -28,6 +28,10 @@ public class WriteCell {
 		this.sheet = builder.sheet;
 	}
 	
+	public void setCell(Cell cell) {
+		this.cell = cell;
+	}
+
 	public Cell getCell() {
 		return cell;
 	}
