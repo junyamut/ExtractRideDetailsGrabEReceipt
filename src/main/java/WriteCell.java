@@ -11,8 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class WriteCell {		
 	private static final HorizontalAlignment DEFAULT_HORIZONTAL_ALIGNMENT = HorizontalAlignment.LEFT;
-	private static final IndexedColors DEFAULT_INDEX_COLOR = IndexedColors.WHITE;
-	private static final FillPatternType DEFAULT_FILL_PATTERN_TYPE = FillPatternType.SOLID_FOREGROUND;
+	private static final IndexedColors DEFAULT_INDEX_COLOR = IndexedColors.BLACK;
+	private static final FillPatternType DEFAULT_FILL_PATTERN_TYPE = FillPatternType.NO_FILL;
 	protected Sheet sheet;
 	protected Cell cell;	
 
