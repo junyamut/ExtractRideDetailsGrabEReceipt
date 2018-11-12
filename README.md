@@ -20,13 +20,13 @@ To be used in conjunction with [Gmail Find and Extract Messages](https://github.
 4. Run with command 'gradle -q run'.
 
 ### Note
-Right now the source directory for the Grab e-receipts is assumed to be named as 'receipts', which is located relative to the root of the project directory. You may change this as necessary.
+Right now the source directory for the Grab e-receipts is assumed to be named as 'receipts', which is located relative to the root of the project directory.
 
 The output directory is named as 'workbooks'. This is where the spreadsheet will be saved.
 
-Spreadsheet name is 'My Grab Rides.xlsx'. Change arbitrarily.
+Spreadsheet name is 'My Grab Rides.xlsx'.
 
-All the above may be found under the main class *(ExtractRideDetailsGrabEReceipt)*.
+All the above may be found under the main class *(ExtractRideDetailsGrabEReceipt)*.  You may change this as necessary.
 
 #### Gradle Setup
 ```gradle
@@ -41,8 +41,8 @@ dependencies {
 }
 ```
 #### Caveats
-* Rides are not sorted properly according to date when written into the spreadsheet.* 
-* Will not check if e-receipt data is already in the spreadsheet. As a result, you might end up in duplicate entries.
+* Rides are not sorted properly according to date when written into the spreadsheet.
+* Will not check if e-receipt data is already in the spreadsheet. As a result, you might end up with duplicate entries.
 * Does not read symbolic link files. Make sure you copy the e-receipt HTML files to the 'receipts' directory.
 
 #### Useful References
