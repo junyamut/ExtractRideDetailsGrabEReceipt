@@ -1,3 +1,5 @@
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +38,8 @@ public class SpreadsheetTemplate {
 	public static final int TOTAL_FARE_LABEL_CELL = 1;
 	public static final int BOOKING_DETAILS_LABEL_CELL = 2;
 	public static final int RECEIPT_SUMMARY_LABEL_CELL = 9;
-	public static final int SUBLABELS_START_CELL = 2;	
+	public static final int SUBLABELS_START_CELL = 2;
+	private SpreadsheetMetadata metadata;
 	private XSSFWorkbook workbook;	
 	private XSSFFont labelFont;
 	private Sheet sheet;
@@ -48,16 +51,20 @@ public class SpreadsheetTemplate {
 		labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).build().getFont();
 	}
 	
+	public SpreadsheetTemplate(String sheetName) {
+		workbook = new XSSFWorkbook();
+		sheet = workbook.createSheet();
+		this.sheetName = sheetName;
+		labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).build().getFont();
+		metadata = new SpreadsheetMetadata.SpreadsheetMetadataBuilder(workbook.getProperties()).title(sheetName).build();
+	}
+	
 	public String getSheetName() {
 		return sheetName;
 	}
 
 	public void setSheetName(String sheetName) {	
 		this.sheetName = WorkbookUtil.createSafeSheetName(sheetName);
-	}
-
-	private String dateTimeNow() {
-		return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssz").format(new Date());
 	}
 	
 	private void titleNameRow() {
@@ -66,10 +73,12 @@ public class SpreadsheetTemplate {
 		new WriteCell.WriteCellBuilder(workbook, sheet, titleNameRow, 0).value(sheetName).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.GREEN.getIndex()).height(20).bold(true).build().getFont()).cellColumnWidth(HEADERS_CELL, 4000).build();
 	}
 	
-	private void headerDatesRow() {
+	private void headerDatesRow() throws ParseException {
+		DateFormat read = new SimpleDateFormat("EE MMM dd HH:mm:ss Z yyyy");
+		Date date = read.parse(metadata.getCoreProperties().getCreated().toString());
 		Row creationDateRow = sheet.createRow(CREATION_DATE_LABEL_ROW);		
 		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL).value(CREATION_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.RIGHT).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL + 1).value(dateTimeNow()).cellStyleFont(labelFont).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(HEADERS_CELL + 1, 4000).mergeCells(CREATION_DATE_LABEL_ROW, CREATION_DATE_LABEL_ROW, HEADERS_CELL + 1, HEADERS_CELL + 2).build();		
+		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL + 1).value(date).cellStyleDataType(WriteCell.DataType.DateTime).cellStyleFont(labelFont).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(HEADERS_CELL + 1, 4000).mergeCells(CREATION_DATE_LABEL_ROW, CREATION_DATE_LABEL_ROW, HEADERS_CELL + 1, HEADERS_CELL + 2).build();		
 		Row updateDateRow = sheet.createRow(UPDATE_DATE_LABEL_ROW);
 		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL).value(UPDATE_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.RIGHT).build();
 		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL + 1).cellStyleFont(labelFont).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(UPDATE_DATE_LABEL_ROW, UPDATE_DATE_LABEL_ROW, HEADERS_CELL + 1, HEADERS_CELL + 2).build();
@@ -105,12 +114,11 @@ public class SpreadsheetTemplate {
 		return allColumnHeaders.indexOf(value);		
 	}
 	
-	public XSSFWorkbook create() {
+	public XSSFWorkbook create() throws ParseException {
 		titleNameRow();
 		headerDatesRow();
 		columnGroupHeadersRow();
 		columnSubheadersRow();
-		new SpreadsheetMetadata.SpreadsheetMetadataBuilder().properties(workbook.getProperties()).title(sheetName).build();
 		return workbook;
 	}
 }
