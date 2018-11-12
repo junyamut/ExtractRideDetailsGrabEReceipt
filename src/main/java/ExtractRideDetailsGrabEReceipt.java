@@ -54,14 +54,15 @@ public class ExtractRideDetailsGrabEReceipt {
         SpreadsheetWriter writer;
         File input;
 		Document document;
-		Iterator<Path> iterator = getFilesList().iterator();		
+		Iterator<Path> iterator = getFilesList().iterator();	
 		while (iterator.hasNext()) {
 			Path filePath = iterator.next();
 			input = new File(filePath.toString());
 			document = Jsoup.parse(input, "UTF-8");
 			EReceipt eReceipt = new EReceipt(document);
-			Row row = sheet.createRow(startRow);
+			Row row = sheet.createRow(startRow);			
 			writer = new SpreadsheetWriter(workbook, sheet, row, eReceipt.getMap());
+			if (!iterator.hasNext()) writer.setColumnAutoResize(true);
 			try {
 				writer.writeData();
 			} catch (ParseException e) {

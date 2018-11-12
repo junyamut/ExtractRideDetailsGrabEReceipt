@@ -19,12 +19,14 @@ public class SpreadsheetWriter {
 	private Sheet sheet;
 	private Row row;
 	private Map<String, Object> dataMap;
+	private boolean autoResize;
 	
 	public SpreadsheetWriter(XSSFWorkbook workbook, Sheet sheet, Row row, Map<String, Object> dataMap) { 
 		this.workbook = workbook;
 		this.sheet = sheet;
 		this.row = row;
 		this.dataMap = dataMap;
+		this.autoResize = false;
 	}
 	
 	public static boolean isRowEmpty(Row row) {
@@ -38,6 +40,10 @@ public class SpreadsheetWriter {
 	        }
 	    }
 	    return true;
+	}
+	
+	public void setColumnAutoResize(boolean autoResize) {
+		this.autoResize = autoResize;
 	}
 	
 	public void writeData() throws ParseException {		
@@ -70,7 +76,7 @@ public class SpreadsheetWriter {
 			if (data.getKey().equals("TOTAL")) {
 				new WriteCell.WriteCellBuilder(workbook, sheet, row, 1).value(data.getValue()).cellStyleDataType(WriteCell.DataType.NumericDecimal).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.RED.getIndex()).height(12).bold(true).build().getFont()).build();
 			}
-			sheet.autoSizeColumn(column + 2);
+			if (autoResize)	sheet.autoSizeColumn(column + 2);
 			column++;
 		}
 		setMetadataModifiedDate();		
