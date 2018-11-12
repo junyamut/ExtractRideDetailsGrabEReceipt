@@ -55,7 +55,7 @@ public class SpreadsheetTemplate {
 		workbook = new XSSFWorkbook();
 		sheet = workbook.createSheet();
 		this.sheetName = sheetName;
-		labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).build().getFont();
+		labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).bold(true).build().getFont();
 		metadata = new SpreadsheetMetadata.SpreadsheetMetadataBuilder(workbook.getProperties()).title(sheetName).build();
 	}
 	
@@ -78,10 +78,10 @@ public class SpreadsheetTemplate {
 		Date date = read.parse(metadata.getCoreProperties().getCreated().toString());
 		Row creationDateRow = sheet.createRow(CREATION_DATE_LABEL_ROW);		
 		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL).value(CREATION_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.RIGHT).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL + 1).value(date).cellStyleDataType(WriteCell.DataType.DateTime).cellStyleFont(labelFont).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(HEADERS_CELL + 1, 4000).mergeCells(CREATION_DATE_LABEL_ROW, CREATION_DATE_LABEL_ROW, HEADERS_CELL + 1, HEADERS_CELL + 2).build();		
+		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL + 1).value(date).cellStyleDataType(WriteCell.DataType.DateTime).build();		
 		Row updateDateRow = sheet.createRow(UPDATE_DATE_LABEL_ROW);
 		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL).value(UPDATE_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.RIGHT).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL + 1).cellStyleFont(labelFont).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(UPDATE_DATE_LABEL_ROW, UPDATE_DATE_LABEL_ROW, HEADERS_CELL + 1, HEADERS_CELL + 2).build();
+		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL + 1).cellColumnWidth(HEADERS_CELL + 1, 4000).build();
 	}
 	
 	private void columnGroupHeadersRow() {
@@ -97,13 +97,13 @@ public class SpreadsheetTemplate {
 		Iterator<String> group1 = SUBLABELS_BD_LIST.iterator();
 		int index1 = SUBLABELS_START_CELL;
 		while (group1.hasNext()) {
-			new WriteCell.WriteCellBuilder(workbook, sheet, rideSublabelsRow, index1).value(group1.next()).cellColumnWidth(index1, 4000).build();			
+			new WriteCell.WriteCellBuilder(workbook, sheet, rideSublabelsRow, index1).value(group1.next()).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(index1, 4000).build();			
 			index1++;
 		}
 		Iterator<String> group2 = SUBLABELS_RS_LIST.iterator();
 		int index2 = SUBLABELS_START_CELL + SUBLABELS_BD_LIST.size();
 		while (group2.hasNext()) {
-			new WriteCell.WriteCellBuilder(workbook, sheet, rideSublabelsRow, index2).value(group2.next()).cellColumnWidth(index2, 4000).build();
+			new WriteCell.WriteCellBuilder(workbook, sheet, rideSublabelsRow, index2).value(group2.next()).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(index2, 4000).build();
 			index2++;
 		}
 	}
