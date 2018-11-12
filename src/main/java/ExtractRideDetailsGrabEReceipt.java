@@ -26,15 +26,14 @@ public class ExtractRideDetailsGrabEReceipt {
 	public XSSFWorkbook workbook;
 	SpreadsheetTemplate template;
 
-	public ExtractRideDetailsGrabEReceipt() throws IOException {
-		createOutputPath(OUTPUT_DIR, WORKBOOK_NAME);
-		template = new SpreadsheetTemplate();		
+	public ExtractRideDetailsGrabEReceipt() throws IOException, ParseException {
+		createOutputPath(OUTPUT_DIR, WORKBOOK_NAME);		
 		try {
 			if (!Files.exists(workbookPath)) {
 				createSpreadsheetTemplate();
 			}
 			extract();
-		} catch (Exception e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 	}
@@ -75,8 +74,8 @@ public class ExtractRideDetailsGrabEReceipt {
 		fileInputStream.close();
 	}
 	
-	private void createSpreadsheetTemplate() throws IOException {
-		template.setSheetName(SHEET_NAME);		
+	private void createSpreadsheetTemplate() throws IOException, ParseException {
+		template = new SpreadsheetTemplate(SHEET_NAME);
 		workbook = template.create();
 		writeWorkbook();
 	}
@@ -104,10 +103,10 @@ public class ExtractRideDetailsGrabEReceipt {
 		}
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		try {
 			new ExtractRideDetailsGrabEReceipt();
-		} catch (IOException e) {
+		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 	}
