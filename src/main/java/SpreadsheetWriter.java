@@ -5,9 +5,13 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.poi.POIXMLProperties.CoreProperties;
 import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.openxml4j.util.Nullable;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -70,5 +74,13 @@ public class SpreadsheetWriter {
 			}			
 			column++;
 		}
+		setMetadataModifiedDate();
+	}
+	
+	private void setMetadataModifiedDate() {
+		CoreProperties coreProperties = new SpreadsheetMetadata(this.workbook.getProperties()).getCoreProperties();
+		coreProperties.setModified(new Nullable<Date>(new Date()));		;
+		new WriteCell.WriteCellBuilder(workbook, sheet, sheet.getRow(SpreadsheetTemplate.UPDATE_DATE_LABEL_ROW), SpreadsheetTemplate.HEADERS_CELL + 1).value(coreProperties.getModified()).cellStyleDataType(WriteCell.DataType.DateTime).build();		
+		
 	}
 }
