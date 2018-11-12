@@ -28,6 +28,10 @@ Spreadsheet name is 'My Grab Rides.xlsx'.
 
 All the above may be found under the main class *(ExtractRideDetailsGrabEReceipt)*.  You may change this as necessary.
 
+*Theoretically, if you are able to download and save the emailed Grab e-receipt mail's body part in HTML (which should be a fully-qualified HTML document as provided as is by Grab) from another mail provider (not Gmail) this app should still work.*  
+
+*Rename/remove the included sample files' .SAMPLE extension so you can open it with its default application automatically.*
+
 #### Gradle Setup
 ```gradle
 repositories {
@@ -53,3 +57,6 @@ dependencies {
 2. Determine if e-receipt data is already in the spreadsheet through Booking Code and skip from writing. 
 3. Set Data boundary - limit how many lines of data per sheet, then create a new one.
 4. Create a settings file and put all the arbitrary values (e.g. workbook name) in there instead of changing it directly in the class.
+
+#### DISCLAIMER
+*Grab e-receipts ARE NOT being retrieved directly from the Grab app or website - where possible - or through any other means that goes into Grab's servers/networks. These are instead taken from the Grab account owner's e-receipts from their Gmail account which is being emailed by Grab after each ride is completed (assumed that the Grab account has Gmail account in their user profile as per the author of this work). Thus the companion app Gmail Find and Extract Messages was created.*
