@@ -1,12 +1,16 @@
 import org.apache.poi.POIXMLProperties;
+import org.apache.poi.POIXMLProperties.CoreProperties;
+import org.apache.poi.POIXMLProperties.CustomProperties;
 import org.openxmlformats.schemas.officeDocument.x2006.customProperties.CTProperty;
 
 public class SpreadsheetMetadata {	
-	public static final String META_DESCRIPTION = "Extract Ride Details for Grab E-Receipts";
+	public static final String META_DESCRIPTION = "Extract Ride Details from Grab E-Receipts";
 	public static final String META_KEYWORDS = "Grab, E-Receipt, Ride-Summary, Ride-Details";
 	public static final String META_CATEGORY = "Transportation Expense";
 	public static final String META_DATA_BOUNDARY = "NO-DATA";	
 	private POIXMLProperties properties;
+	private POIXMLProperties.CoreProperties core;
+	private POIXMLProperties.CustomProperties custom;
 	private String title;
 	private String dataBoundary;
 	public Integer dataRows;
@@ -17,6 +21,8 @@ public class SpreadsheetMetadata {
 	
 	public SpreadsheetMetadata(SpreadsheetMetadataBuilder builder) {
 		this.properties = builder.properties;
+		this.core = builder.core;
+		this.custom = builder.custom;
 		this.title = builder.title;
 		this.dataBoundary = builder.dataBoundary;
 		this.dataRows = builder.dataRows;
@@ -40,6 +46,14 @@ public class SpreadsheetMetadata {
 
 	public POIXMLProperties getProperties() {
 		return properties;
+	}
+	
+	public CoreProperties getCoreProperties() {
+		return core;
+	}
+	
+	public CustomProperties getCustomProperties() {
+		return custom;
 	}
 
 	public String getTitle() {
@@ -74,15 +88,30 @@ public class SpreadsheetMetadata {
 	
 	public static final class SpreadsheetMetadataBuilder {
 		private POIXMLProperties properties;
+		private POIXMLProperties.CoreProperties core;
+		private POIXMLProperties.CustomProperties custom;
 		private String title;
 		private String dataBoundary;
 		private Integer dataRows;
-		private boolean modifyOnly;		
+		private boolean modifyOnly;				
+
+		public SpreadsheetMetadataBuilder() {
+			this.dataBoundary = META_DATA_BOUNDARY;
+			this.dataRows = 0;			
+		}
 		
-		public SpreadsheetMetadataBuilder() { }
+		public SpreadsheetMetadataBuilder(POIXMLProperties properties) {
+			this.properties = properties;
+			this.core = properties.getCoreProperties();
+			this.custom = properties.getCustomProperties();
+			this.dataBoundary = META_DATA_BOUNDARY;
+			this.dataRows = 0;
+		}
 		
 		public SpreadsheetMetadataBuilder properties(POIXMLProperties properties) {
 			this.properties = properties;
+			this.core = properties.getCoreProperties();
+			this.custom = properties.getCustomProperties();
 			return this;
 		}
 		
@@ -107,35 +136,27 @@ public class SpreadsheetMetadata {
 		}
 		
 		public SpreadsheetMetadata build() {
-			POIXMLProperties.CoreProperties core = properties.getCoreProperties();
-			POIXMLProperties.CustomProperties custom = properties.getCustomProperties();
 			if (this.modifyOnly == true) {				
 				if (this.dataBoundary == null || this.dataRows == null) {
 					throw new NullPointerException();
 				}
 				if (this.title != null && !this.title.isEmpty()) {
-					core.setTitle(title);
+					core.setTitle(this.title);
 				}
-				custom.addProperty("Data-boundary", dataBoundary);
-				custom.addProperty("Data-rows", dataRows);
+				custom.addProperty("Data-boundary", this.dataBoundary);
+				custom.addProperty("Data-rows", this.dataRows);
 				return new SpreadsheetMetadata(this);
 			} else {
 				if (this.title == null) {
 					throw new NullPointerException("Assign a valid spreadsheet title!");
 				}
-				if (this.dataBoundary == null) {
-					this.dataBoundary = META_DATA_BOUNDARY;
-				}
-				if (this.dataRows == null) {
-					this.dataRows = 0;
-				}				
 				core.setCreator("Apache POI on Java " + System.getProperty("java.version"));		
 				core.setDescription(META_DESCRIPTION);		
 				core.setKeywords(META_KEYWORDS);
 				core.setCategory(META_CATEGORY);
-				core.setTitle(title);				
-				custom.addProperty("Data-boundary", dataBoundary);
-				custom.addProperty("Data-rows", dataRows);		
+				core.setTitle(this.title);				
+				custom.addProperty("Data-boundary", this.dataBoundary);
+				custom.addProperty("Data-rows", this.dataRows);		
 				return new SpreadsheetMetadata(this);
 			}
 		}
