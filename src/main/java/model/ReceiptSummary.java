@@ -14,122 +14,107 @@ public class ReceiptSummary {
 	private final String surgeChargesIdentifier = "Surge Charges";
 	private final String shareDiscountIdentifier = "Share Discount";
 	private final String promotionAmountIdentifier = "Promotion";
-	private String paymentMethodValue;
-	private Double totalAmountValue;	
-	private Double rideFareValue;
-	private Double baseFareValue;
-	private Double adjusmentMinFareValue;
-	private Double distanceAmountValue;
-	private Double timeAmountValue;
-	private Double surgeChargesValue;
-	private Double shareDiscountValue;
-	private Double promotionAmountValue;
 	private Element body;
 	private Map<String, Object> receiptSummary = new HashMap<String, Object>();
 
 	public ReceiptSummary(Element body) {
 		 this.body = body;
-		 paymentMethodValue = setValue(paymentMethodIdentifier);
-		 totalAmountValue = setValueForAmount(totalAmountIdentifier);		 
+		 setValue(paymentMethodIdentifier);
+		 setValue(totalAmountIdentifier);		 
 		 try {
-			 rideFareValue = setValueForAmount(rideFareIdentifier);
+			 setValue(rideFareIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + rideFareIdentifier + "] not found: " + e.getMessage());
 		 }
 		 try {
-			 baseFareValue = setValueForAmount(baseFareIdentifier);
+			 setValue(baseFareIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + baseFareIdentifier + "] not found: " + e.getMessage());
 		 }
 		 try {
-			 adjusmentMinFareValue = setValueForAmount(adjustmentMinFareIdentifier);
+			 setValue(adjustmentMinFareIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + adjustmentMinFareIdentifier + "] not found: " + e.getMessage());
 		 } 
 		 try {
-			 distanceAmountValue = setValueForAmount(distanceAmountIdentifier);
+			 setValue(distanceAmountIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + distanceAmountIdentifier + "] not found: " + e.getMessage());
 		 } 
 		 try {
-			 timeAmountValue = setValueForAmount(timeAmountIdentifier);
+			 setValue(timeAmountIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + timeAmountIdentifier + "] not found: " + e.getMessage());
 		 }
 		 try {
-			 surgeChargesValue = setValueForAmount(surgeChargesIdentifier);
+			 setValue(surgeChargesIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + surgeChargesIdentifier + "] not found: " + e.getMessage());
 		 }
 		 try {
-			 shareDiscountValue = setValueForAmount(shareDiscountIdentifier);
+			 setValue(shareDiscountIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + shareDiscountIdentifier + "] not found: " + e.getMessage());
 		 }
 		 try {
-			 promotionAmountValue = setValueForAmount(promotionAmountIdentifier);
+			 setValue(promotionAmountIdentifier);
 		 } catch (NullPointerException e) {
 			 System.out.println("[" + promotionAmountIdentifier + "] not found: " + e.getMessage());
 		 }
 	}
 	
-	private String setValue(String identifier) {
+	private void setValue(String identifier) {
 		String value = new String();
-		value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").select("span").first().text();
-		setMap(identifier, value);
-		return value;
-	}
-	
-	private Double setValueForAmount(String identifier) {
-		try {
-			String value = new String();
+		if (identifier.equals(paymentMethodIdentifier)) {
+			value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").select("span").first().text();
+			setMap(identifier, value);
+		} else {
 			value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").first().nextElementSibling().text();
-			Double amount = Double.parseDouble(value.trim().replaceAll("[\\sP]", ""));
-			setMap(identifier, amount);
-			return amount;
-		} catch (NumberFormatException e) {
-			return (double) 0;
+			try {
+				setMap(identifier, Double.parseDouble(value.trim().replaceAll("[\\sP]", "")));
+			} catch (NumberFormatException e) {
+				System.out.println("Error encountered when parsing data: " + e.getMessage());
+			}			
 		}
 	}
 	
 	public String getPaymentMethod() {
-		return paymentMethodValue;
+		return (String) getMap().get(paymentMethodIdentifier);
 	}
-	
-	
+		
 	public Double getTotalAmount() {
-		return totalAmountValue;
+		return (Double) getMap().get(totalAmountIdentifier);
 	}
 	public Double getRideFare() {
-		return rideFareValue;
+		return (Double) getMap().get(rideFareIdentifier);
 	}
 	
 	public Double getBaseFare() {
-		return baseFareValue;
+		return (Double) getMap().get(baseFareIdentifier);
 	}
 	
 	public Double getAdjustmentMinFare() {
-		return adjusmentMinFareValue;
+		return (Double) getMap().get(adjustmentMinFareIdentifier);
 	}
 	
 	public Double getDistanceAmount() {
-		return distanceAmountValue;
+		return (Double) getMap().get(distanceAmountIdentifier);
 	}
 	
 	public Double getTimeAmount() {
-		return timeAmountValue;
+		return (Double) getMap().get(timeAmountIdentifier);
 	}
 	
 	public Double getSurgeCharges() {
-		return surgeChargesValue;
+		return (Double) getMap().get(surgeChargesIdentifier);
 	}
 	
 	public Double getShareDiscount() {
-		return shareDiscountValue;
+		return (Double) getMap().get(shareDiscountIdentifier);
 	}
 	
 	public Double getPromotionAmount() {
-		return promotionAmountValue;
+		return (Double) getMap().get(promotionAmountIdentifier);
 	}
 	
 	private void setMap(String key, Object value) {

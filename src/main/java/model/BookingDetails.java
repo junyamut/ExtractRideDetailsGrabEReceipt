@@ -1,4 +1,8 @@
 package model;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,79 +17,74 @@ public class BookingDetails {
 	private final String pickUpLocationIdentifier = "Pick up location:";
 	private final String dropOffLocationIdentifier = "Drop off location:";
 	private final String tagIdentifier = "Tag:";	
-	private String pickUpTimeValue;
-	private String vehicleTypeValue;
-	private String issuedByDriverValue;
-	private String issuedToValue;
-	private String bookingCodeValue;
-	private String pickUpLocationValue;
-	private String dropOffLocationValue;
-	private String tagValue;
 	private Element body;
 	private Map<String, Object> bookingDetails = new HashMap<String, Object>();
 
 	public BookingDetails(Element body) { 
 		this.body = body;
-		vehicleTypeValue = setValue(vehicleTypeIdentifier);
-		issuedByDriverValue = setValue(issuedByDriverIdentifier);
-		issuedToValue = setValue(issuedToIdentifier);
-		bookingCodeValue =  setValue(bookingCodeIdentifier);
-		pickUpLocationValue = setValue(pickUpLocationIdentifier);
-		dropOffLocationValue = setValue(dropOffLocationIdentifier);
-		pickUpTimeValue = setValue(pickUpTimeIdentifier);
-		tagValue = setValue(tagIdentifier);
+		setValue(vehicleTypeIdentifier);
+		setValue(issuedByDriverIdentifier);
+		setValue(issuedToIdentifier);
+		setValue(bookingCodeIdentifier);
+		setValue(pickUpLocationIdentifier);
+		setValue(dropOffLocationIdentifier);
+		setValue(pickUpTimeIdentifier);
+		setValue(tagIdentifier);
 	}
 		
-	private String setValue(String identifier) {
+	private void setValue(String identifier) {
 		String value = new String();
 		if (!identifier.equals(pickUpTimeIdentifier)) {
 			value = body.select("span:contains(" + identifier + ")").first().parent().select("span").last().text();
 			setMap(identifier, value);
-			return value;
 		} else {
 			value = body.select("tr:contains(" + identifier + ")").last().parent().select("td").last().select("span").first().text();
-			setMap(identifier, value);
-			return value;
+			DateFormat read = new SimpleDateFormat("dd MMM yy HH:mm Z");
+			try {
+				setMap(identifier, read.parse(value));
+			} catch (ParseException e) {
+				System.out.println("Error encountered when parsing data: " + e.getMessage());
+			}			
 		}	
 	}
 	
-	public String getPickUpTime() {
-		return pickUpTimeValue;
+	public Date getPickUpTime() {
+		return (Date) getMap().get(pickUpTimeIdentifier);
 	}
 	
 	public String getVehicleType() {
-		return vehicleTypeValue;
+		return (String) getMap().get(vehicleTypeIdentifier);
 	}
 	
 	public String getIssuedByDriver() {
-		return issuedByDriverValue;
+		return (String) getMap().get(issuedByDriverIdentifier);
 	}
 	
 	public String getIssuedTo() {
-		return issuedToValue;
+		return (String) getMap().get(issuedToIdentifier);
 	}
 	
 	public String getBookingCode() {
-		return bookingCodeValue;
+		return (String) getMap().get(bookingCodeIdentifier);
 	}
 	
 	public String getPickUpLocation() {
-		return pickUpLocationValue;
+		return (String) getMap().get(pickUpLocationIdentifier);
 	}
 	
 	public String getDropOffLocation() {
-		return dropOffLocationValue;
+		return (String) getMap().get(dropOffLocationIdentifier);
 	}
 	
 	public String getTagValue() {
-		return tagValue;
+		return (String) getMap().get(tagIdentifier);
 	}
 	
 	private String sanitizeIdentifier(String identifier) {
 		return identifier.replaceAll("[:]", "");
 	}
 	
-	private void setMap(String key, String value) {
+	private void setMap(String key, Object value) {
 		bookingDetails.put(sanitizeIdentifier(key), value);
 	}
 	
