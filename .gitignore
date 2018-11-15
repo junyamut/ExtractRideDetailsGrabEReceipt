@@ -1,6 +1,7 @@
 bin/*
 build/*
 gradle/*
+libs/*
 receipts/*
 workbooks/*
 .gradle/*
