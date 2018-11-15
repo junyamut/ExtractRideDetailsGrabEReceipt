@@ -69,9 +69,8 @@ public class SpreadsheetWriter {
 					new WriteCell.WriteCellBuilder(workbook, sheet, row, (column + 2)).value(data.getValue()).cellStyleDataType(WriteCell.DataType.NumericDecimal).build();
 				}
 			}
-			if (data.getKey().equals("Pick-up time")) {				
-				Date date = read.parse(data.getValue().toString());
-				new WriteCell.WriteCellBuilder(workbook, sheet, row, 0).value(date).cellStyleDataType(WriteCell.DataType.DateTime).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.BLUE.getIndex()).height(12).bold(true).build().getFont()).build();
+			if (data.getKey().equals("Pick-up time")) {
+				new WriteCell.WriteCellBuilder(workbook, sheet, row, 0).value(data.getValue()).cellStyleDataType(WriteCell.DataType.DateTime).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.BLUE.getIndex()).height(12).bold(true).build().getFont()).build();
 			}
 			if (data.getKey().equals("TOTAL")) {
 				new WriteCell.WriteCellBuilder(workbook, sheet, row, 1).value(data.getValue()).cellStyleDataType(WriteCell.DataType.NumericDecimal).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.RED.getIndex()).height(12).bold(true).build().getFont()).build();
