@@ -49,11 +49,11 @@ public class BookingDetails {
 	}
 	
 	public Date getPickUpTime() {
-		return (Date) getMap().get(pickUpTimeIdentifier);
+		return (Date) getMap().get(sanitizeIdentifier(pickUpTimeIdentifier));
 	}
 	
 	public String getVehicleType() {
-		return (String) getMap().get(vehicleTypeIdentifier);
+		return (String) getMap().get(sanitizeIdentifier(vehicleTypeIdentifier));
 	}
 	
 	public String getIssuedByDriver() {
@@ -69,15 +69,15 @@ public class BookingDetails {
 	}
 	
 	public String getPickUpLocation() {
-		return (String) getMap().get(pickUpLocationIdentifier);
+		return (String) getMap().get(sanitizeIdentifier(pickUpLocationIdentifier));
 	}
 	
 	public String getDropOffLocation() {
-		return (String) getMap().get(dropOffLocationIdentifier);
+		return (String) getMap().get(sanitizeIdentifier(dropOffLocationIdentifier));
 	}
 	
 	public String getTagValue() {
-		return (String) getMap().get(tagIdentifier);
+		return (String) getMap().get(sanitizeIdentifier(tagIdentifier));
 	}
 	
 	private String sanitizeIdentifier(String identifier) {
