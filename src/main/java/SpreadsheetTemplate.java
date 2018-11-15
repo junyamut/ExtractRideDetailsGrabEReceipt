@@ -19,7 +19,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class SpreadsheetTemplate {	
 	public static final List<String> SUBLABELS_BD_LIST = Arrays.asList("Vehicle type", "Issued by driver", "Issued to", "Booking code", "Pick up location", "Drop off location", "Tag");
-	public static final List<String> SUBLABELS_RS_LIST = Arrays.asList("Payment Method", "Ride Fare", "Base Fare", "Adjustment for Min Fare", "Distance", "Time", "Surge Charges", "Share Discount");
+	public static final List<String> SUBLABELS_RS_LIST = Arrays.asList("Payment Method", "Ride Fare", "Base Fare", "Adjustment for Min Fare", "Distance", "Time", "Surge Charges", "Share Discount", "Promotion");
 	public static final String SHEET_FONT = "Arial";	
 	public static final String CREATION_DATE_LABEL = "Created On";
 	public static final String UPDATE_DATE_LABEL = "Updated On";	
