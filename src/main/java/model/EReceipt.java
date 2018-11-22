@@ -10,8 +10,8 @@ public class EReceipt {
 	private Map<String, Object> jointList = new HashMap<String, Object>();
 
 	public EReceipt(Document document) {	
-		bookingDetails = new BookingDetails(document.body());
-		receiptSummary = new ReceiptSummary(document.body());
+		this.bookingDetails = new BookingDetails(document.body());
+		this.receiptSummary = new ReceiptSummary(document.body());
 	}
 
 	public BookingDetails getBookingDetails() {
