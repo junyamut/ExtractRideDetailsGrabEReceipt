@@ -1,6 +1,4 @@
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
@@ -50,7 +48,6 @@ public class SpreadsheetWriter {
 		if (!isRowEmpty(row)) {
 			throw new IllegalStateException("Row is not empty. Aborting write.");
 		}
-		DateFormat read = new SimpleDateFormat("dd MMM yy HH:mm Z");
 		int column = 0;
 		int numericColumnsStart = SpreadsheetTemplate.SUBLABELS_BD_LIST.size() + 1;
 		Iterator<Map.Entry<String, Object>> iterator = dataMap.entrySet().iterator();		
