@@ -1,8 +1,6 @@
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -17,16 +15,14 @@ import org.apache.poi.ss.util.WorkbookUtil;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class SpreadsheetTemplate {	
-	public static final List<String> SUBLABELS_BD_LIST = Arrays.asList("Vehicle type", "Issued by driver", "Issued to", "Booking code", "Pick up location", "Drop off location", "Tag");
-	public static final List<String> SUBLABELS_RS_LIST = Arrays.asList("Payment Method", "Ride Fare", "Base Fare", "Adjustment for Min Fare", "Distance", "Time", "Surge Charges", "Share Discount", "Promotion");
+import model.BookingDetails;
+import model.EReceipt;
+import model.ReceiptSummary;
+
+public class SpreadsheetTemplate {
 	public static final String SHEET_FONT = "Arial";	
 	public static final String CREATION_DATE_LABEL = "Created On";
-	public static final String UPDATE_DATE_LABEL = "Updated On";	
-	public static final String RIDE_DATE_LABEL = "Date";
-	public static final String TOTAL_FARE_LABEL = "TOTAL";
-	public static final String BOOKING_DETAILS_LABEL = "Booking Details";
-	public static final String RECEIPT_SUMMARY_LABEL = "Receipt Summary";
+	public static final String UPDATE_DATE_LABEL = "Updated On";
 	public static final int SHEET_DATA_START_ROW = 7;
 	public static final int SHEET_NAME_ROW = 0;
 	public static final int CREATION_DATE_LABEL_ROW = 1;
@@ -44,19 +40,22 @@ public class SpreadsheetTemplate {
 	private XSSFFont labelFont;
 	private Sheet sheet;
 	private String sheetName;
+	private EReceipt eReceipt;
 
 	public SpreadsheetTemplate() {
-		workbook = new XSSFWorkbook();
-		sheet = workbook.createSheet();
-		labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).build().getFont();
+		this.workbook = new XSSFWorkbook();
+		this.sheet = workbook.createSheet();
+		this.labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).build().getFont();
+		this.eReceipt = new EReceipt();
 	}
 	
 	public SpreadsheetTemplate(String sheetName) {
-		workbook = new XSSFWorkbook();
-		sheet = workbook.createSheet();
+		this.workbook = new XSSFWorkbook();
+		this.sheet = workbook.createSheet();
 		this.sheetName = sheetName;
-		labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).bold(true).build().getFont();
-		metadata = new SpreadsheetMetadata.SpreadsheetMetadataBuilder(workbook.getProperties()).title(sheetName).build();
+		this.labelFont = new SpreadsheetFont.SpreadsheetFontBuilder(workbook).height(12).bold(true).build().getFont();
+		this.metadata = new SpreadsheetMetadata.SpreadsheetMetadataBuilder(workbook.getProperties()).title(sheetName).build();
+		this.eReceipt = new EReceipt();
 	}
 	
 	public String getSheetName() {
@@ -73,52 +72,45 @@ public class SpreadsheetTemplate {
 		new WriteCell.WriteCellBuilder(workbook, sheet, titleNameRow, 0).value(sheetName).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.GREEN.getIndex()).height(20).bold(true).build().getFont()).cellColumnWidth(HEADERS_CELL, 4000).build();
 	}
 	
-	private void headerDatesRow() throws ParseException {
-		DateFormat read = new SimpleDateFormat("EE MMM dd HH:mm:ss Z yyyy");
-		Date date = read.parse(metadata.getCoreProperties().getCreated().toString());
-		Row creationDateRow = sheet.createRow(CREATION_DATE_LABEL_ROW);		
-		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL).value(CREATION_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.RIGHT).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, creationDateRow, HEADERS_CELL + 1).value(date).cellStyleDataType(WriteCell.DataType.DateTime).build();		
-		Row updateDateRow = sheet.createRow(UPDATE_DATE_LABEL_ROW);
-		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL).value(UPDATE_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.RIGHT).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, updateDateRow, HEADERS_CELL + 1).cellColumnWidth(HEADERS_CELL + 1, 4000).build();
+	private void headerDatesRow(Integer rowIndex, Integer cellIndex, Object cellValue, WriteCell.DataType dataType, XSSFFont font, HorizontalAlignment alignment, Integer adjustCellColumnWidth) throws ParseException {
+		Row dateRow;
+		if (sheet.getRow(rowIndex) == null) dateRow = sheet.createRow(rowIndex);
+		else dateRow = sheet.getRow(rowIndex);		
+		new WriteCell.WriteCellBuilder(workbook, sheet, dateRow, cellIndex).value(cellValue).cellStyleDataType(dataType).cellStyleFont(font).cellStyleAlignment(alignment).cellColumnWidth(adjustCellColumnWidth, 4000).build();
 	}
 	
-	private void columnGroupHeadersRow() {
-		Row labelsRow = sheet.createRow(RIDE_LABELS_ROW);
-		new WriteCell.WriteCellBuilder(workbook, sheet, labelsRow, RIDE_DATE_LABEL_CELL).value(RIDE_DATE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.CENTER).cellStyleFillForegroundColor(IndexedColors.LIGHT_GREEN).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(RIDE_LABELS_ROW, RIDE_LABELS_ROW + 1, RIDE_DATE_LABEL_CELL, RIDE_DATE_LABEL_CELL).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, labelsRow, TOTAL_FARE_LABEL_CELL).value(TOTAL_FARE_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.CENTER).cellStyleFillForegroundColor(IndexedColors.LIGHT_GREEN).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(RIDE_LABELS_ROW, RIDE_LABELS_ROW + 1, TOTAL_FARE_LABEL_CELL, TOTAL_FARE_LABEL_CELL).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, labelsRow, BOOKING_DETAILS_LABEL_CELL).value(BOOKING_DETAILS_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.CENTER).cellStyleFillForegroundColor(IndexedColors.LIGHT_GREEN).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(RIDE_LABELS_ROW, RIDE_LABELS_ROW, BOOKING_DETAILS_LABEL_CELL, BOOKING_DETAILS_LABEL_CELL + (SUBLABELS_BD_LIST.size() - 1)).build();
-		new WriteCell.WriteCellBuilder(workbook, sheet, labelsRow, RECEIPT_SUMMARY_LABEL_CELL).value(RECEIPT_SUMMARY_LABEL).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.CENTER).cellStyleFillForegroundColor(IndexedColors.LIGHT_GREEN).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(RIDE_LABELS_ROW, RIDE_LABELS_ROW, RECEIPT_SUMMARY_LABEL_CELL, RECEIPT_SUMMARY_LABEL_CELL + (SUBLABELS_RS_LIST.size() - 1)).build();
+	private void columnsGroupheadersRow(Integer cellIndex, Object cellValue, Integer ...cellRangeIndices) {
+		Row labelsRow;
+		if (sheet.getRow(RIDE_LABELS_ROW) == null) labelsRow = sheet.createRow(RIDE_LABELS_ROW);
+		else labelsRow = sheet.getRow(RIDE_LABELS_ROW);
+		new WriteCell.WriteCellBuilder(workbook, sheet, labelsRow, cellIndex).value(cellValue).cellStyleFont(labelFont).cellStyleAlignment(HorizontalAlignment.CENTER).cellStyleFillForegroundColor(IndexedColors.LIGHT_GREEN).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).mergeCells(cellRangeIndices).build();	
 	}
 	
-	private void columnSubheadersRow() {
-		Row rideSublabelsRow = sheet.createRow(RIDE_SUBLABELS_ROW);
-		Iterator<String> group1 = SUBLABELS_BD_LIST.iterator();
-		int index1 = SUBLABELS_START_CELL;
-		while (group1.hasNext()) {
-			new WriteCell.WriteCellBuilder(workbook, sheet, rideSublabelsRow, index1).value(group1.next()).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(index1, 4000).build();			
-			index1++;
+	private void columnsSubheadersRow(List<String> list, Integer cellIndex) {
+		Row sublabelsRow;
+		if (sheet.getRow(RIDE_SUBLABELS_ROW) == null) sublabelsRow = sheet.createRow(RIDE_SUBLABELS_ROW);
+		else sublabelsRow = sheet.getRow(RIDE_SUBLABELS_ROW);
+		Iterator<String> group = list.iterator();
+		while (group.hasNext()) {
+			new WriteCell.WriteCellBuilder(workbook, sheet, sublabelsRow, cellIndex).value(group.next()).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(cellIndex, 4000).build();			
+			cellIndex++;
 		}
-		Iterator<String> group2 = SUBLABELS_RS_LIST.iterator();
-		int index2 = SUBLABELS_START_CELL + SUBLABELS_BD_LIST.size();
-		while (group2.hasNext()) {
-			new WriteCell.WriteCellBuilder(workbook, sheet, rideSublabelsRow, index2).value(group2.next()).cellStyleFillForegroundColor(IndexedColors.LIGHT_YELLOW).cellStyleFillPattern(FillPatternType.SOLID_FOREGROUND).cellColumnWidth(index2, 4000).build();
-			index2++;
-		}
-	}
-	
-	public static int getColumnHeaderIndex (String value) {
-		List<String> allColumnHeaders = new ArrayList<String>(SUBLABELS_BD_LIST);
-		allColumnHeaders.addAll(SUBLABELS_RS_LIST);
-		return allColumnHeaders.indexOf(value);		
 	}
 	
 	public XSSFWorkbook create() throws ParseException {
 		titleNameRow();
-		headerDatesRow();
-		columnGroupHeadersRow();
-		columnSubheadersRow();
+		DateFormat read = new SimpleDateFormat("EE MMM dd HH:mm:ss Z yyyy");
+		Date date = read.parse(metadata.getCoreProperties().getCreated().toString());
+		headerDatesRow(CREATION_DATE_LABEL_ROW, HEADERS_CELL, CREATION_DATE_LABEL, WriteCell.DataType.Text, labelFont, HorizontalAlignment.RIGHT, null);
+		headerDatesRow(CREATION_DATE_LABEL_ROW, HEADERS_CELL + 1, date, WriteCell.DataType.DateTime, null, null, null);
+		headerDatesRow(UPDATE_DATE_LABEL_ROW, HEADERS_CELL, UPDATE_DATE_LABEL, WriteCell.DataType.Text, labelFont, HorizontalAlignment.RIGHT, null);
+		headerDatesRow(UPDATE_DATE_LABEL_ROW, HEADERS_CELL + 1, null, WriteCell.DataType.Empty, null, null, HEADERS_CELL + 1);
+		columnsGroupheadersRow(RIDE_DATE_LABEL_CELL, eReceipt.getBookingDetails().RIDE_DATETIME_LABEL, new Integer[]{RIDE_LABELS_ROW, RIDE_LABELS_ROW + 1, RIDE_DATE_LABEL_CELL, RIDE_DATE_LABEL_CELL});
+		columnsGroupheadersRow(TOTAL_FARE_LABEL_CELL, eReceipt.getReceiptSummary().TOTAL_FARE_LABEL, new Integer[]{RIDE_LABELS_ROW, RIDE_LABELS_ROW + 1, TOTAL_FARE_LABEL_CELL, TOTAL_FARE_LABEL_CELL});
+		columnsGroupheadersRow(BOOKING_DETAILS_LABEL_CELL, eReceipt.getBookingDetails().BOOKING_DETAILS_LABEL, new Integer[]{RIDE_LABELS_ROW, RIDE_LABELS_ROW, BOOKING_DETAILS_LABEL_CELL, BOOKING_DETAILS_LABEL_CELL + (BookingDetails.BOOKING_DETAILS_SUBLABELS.size() - 1)});
+		columnsGroupheadersRow(RECEIPT_SUMMARY_LABEL_CELL, eReceipt.getReceiptSummary().RECEIPT_SUMMARY_LABEL, new Integer[]{RIDE_LABELS_ROW, RIDE_LABELS_ROW, RECEIPT_SUMMARY_LABEL_CELL, RECEIPT_SUMMARY_LABEL_CELL + (ReceiptSummary.RECEIPT_SUMMARY_SUBLABELS.size() - 1)});
+		columnsSubheadersRow(BookingDetails.BOOKING_DETAILS_SUBLABELS, SUBLABELS_START_CELL);
+		columnsSubheadersRow(ReceiptSummary.RECEIPT_SUMMARY_SUBLABELS, SUBLABELS_START_CELL + BookingDetails.BOOKING_DETAILS_SUBLABELS.size());
 		return workbook;
 	}
 }
