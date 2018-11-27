@@ -41,7 +41,6 @@ public class WriteCell {
 	}
 
 	public static final class WriteCellBuilder {
-		private XSSFWorkbook workbook;
 		private Sheet sheet;
 		private Object value;
 		private XSSFFont font;		
@@ -58,7 +57,6 @@ public class WriteCell {
 		
 		public WriteCellBuilder(XSSFWorkbook workbook, Sheet sheet, Row row, int column) {
 			this.creationHelper = workbook.getCreationHelper();
-			this.workbook = workbook;
 			this.sheet = sheet;
 			this.style = workbook.createCellStyle();
 			this.cell = row.createCell(column);
@@ -134,6 +132,9 @@ public class WriteCell {
 			if (this.cellRangeIndices != null && this.cellRangeIndices.getClass().isArray() && this.cellRangeIndices.length == 4) {
 				sheet.addMergedRegion(new CellRangeAddress(this.cellRangeIndices[0], this.cellRangeIndices[1], this.cellRangeIndices[2], this.cellRangeIndices[3]));
 			}
+			if (this.horizontalAlignment == null) {
+				this.horizontalAlignment = DEFAULT_HORIZONTAL_ALIGNMENT;
+			}
 			if (this.value instanceof String) {
 				cell.setCellValue(this.value.toString());
 			} else if (this.value instanceof Double) {
@@ -149,8 +150,7 @@ public class WriteCell {
 			style.setFillPattern(this.fillPatternType);
 			style.setDataFormat(this.dataFormat);
 			cell.setCellStyle(this.style);
-			cell.setCellType(this.type);			
-			
+			cell.setCellType(this.type);						
 			return new WriteCell(this);
 		}
 	}
