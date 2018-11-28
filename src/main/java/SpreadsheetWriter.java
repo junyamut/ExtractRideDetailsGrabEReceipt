@@ -12,12 +12,16 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import model.BookingDetails;
+import model.EReceipt;
+
 public class SpreadsheetWriter {
 	private XSSFWorkbook workbook;
 	private Sheet sheet;
 	private Row row;
 	private Map<String, Object> dataMap;
 	private boolean autoResize;
+	private EReceipt eReceipt;
 	
 	public SpreadsheetWriter(XSSFWorkbook workbook, Sheet sheet, Row row, Map<String, Object> dataMap) { 
 		this.workbook = workbook;
@@ -25,6 +29,7 @@ public class SpreadsheetWriter {
 		this.row = row;
 		this.dataMap = dataMap;
 		this.autoResize = false;
+		this.eReceipt = new EReceipt();
 	}
 	
 	public static boolean isRowEmpty(Row row) {
@@ -44,26 +49,31 @@ public class SpreadsheetWriter {
 		this.autoResize = autoResize;
 	}
 	
-	public void writeData() throws ParseException {		
+	public void writeData() throws ParseException {
 		if (!isRowEmpty(row)) {
 			throw new IllegalStateException("Row is not empty. Aborting write.");
 		}
 		int column = 0;
-		int numericColumnsStart = SpreadsheetTemplate.SUBLABELS_BD_LIST.size() + 1;
+		eReceipt.getBookingDetails();
+		int receiptSummaryColumnStart = BookingDetails.BOOKING_DETAILS_SUBLABELS.size();
 		Iterator<Map.Entry<String, Object>> iterator = dataMap.entrySet().iterator();		
 		while (iterator.hasNext()) {
 			Map.Entry<String, Object> data = iterator.next();
-			System.out.println(data.getKey() + ": " + data.getValue());
-			// The column is the Header index value from SpreadsheetTemplate List<String> SUBLABELS_BD_LIST & List<String> SUBLABELS_RS_LIST combined
-			column = SpreadsheetTemplate.getColumnHeaderIndex(data.getKey().toString().trim());
+			System.out.println("Getting next pair>> " + data.getKey() + ": " + data.getValue());
+			// The column is the Header index value from BD + RS List<String> BOOKING_DETAILS_SUBLABELS & List<String> RECEIPT_SUMMARY_SUBLABELS combined
+			column = eReceipt.getColumnHeaderIndex(data.getKey().toString().trim());
 			// If column is found it should have an index >= 0
 			// Pick-up time & TOTAL are inserted on Columns 0 & 1 which is not in the combined list above
 			// Add 2 to the value of column to move it 2 Columns to the right
 			if (column >= 0) {
-				if (column <= numericColumnsStart) {					
+				if (column <= receiptSummaryColumnStart) {
 					new WriteCell.WriteCellBuilder(workbook, sheet, row, (column + 2)).value(data.getValue()).build();
 				} else {
-					new WriteCell.WriteCellBuilder(workbook, sheet, row, (column + 2)).value(data.getValue()).cellStyleDataType(WriteCell.DataType.NumericDecimal).build();
+					if (data.getValue() != null) {
+						new WriteCell.WriteCellBuilder(workbook, sheet, row, (column + 2)).value(data.getValue()).cellStyleDataType(WriteCell.DataType.NumericDecimal).build();
+					} else {
+						new WriteCell.WriteCellBuilder(workbook, sheet, row, (column + 2)).value(data.getValue()).cellStyleDataType(WriteCell.DataType.Empty).build();
+					}
 				}
 			}
 			if (data.getKey().equals("Pick-up time")) {
@@ -75,13 +85,5 @@ public class SpreadsheetWriter {
 			if (autoResize)	sheet.autoSizeColumn(column + 2);
 			column++;
 		}
-		setMetadataModifiedDate();		
-	}
-	
-	private void setMetadataModifiedDate() {
-		CoreProperties coreProperties = new SpreadsheetMetadata(this.workbook.getProperties()).getCoreProperties();
-		coreProperties.setModified(new Nullable<Date>(new Date()));		;
-		new WriteCell.WriteCellBuilder(workbook, sheet, sheet.getRow(SpreadsheetTemplate.UPDATE_DATE_LABEL_ROW), SpreadsheetTemplate.HEADERS_CELL + 1).value(coreProperties.getModified()).cellStyleDataType(WriteCell.DataType.DateTime).build();		
-		
 	}
 }
