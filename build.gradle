@@ -6,6 +6,17 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 version = '1.0'
 
+task fatJar(type: Jar) {
+	manifest {
+        attributes 'Implementation-Title': 'Extract Ride Details from Grab E-Receipt to Spreadsheet',  
+        	'Implementation-Version': version,
+        	'Main-Class': 'ExtractRideDetailsGrabEReceipt'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 repositories {
     mavenCentral()
 }
