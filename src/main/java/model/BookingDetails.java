@@ -2,13 +2,20 @@ package model;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
 import org.jsoup.nodes.Element;
 
 public class BookingDetails {
+	public final String BOOKING_DETAILS_LABEL = "Booking Details";
+	public final String RIDE_DATETIME_LABEL = "DATE | TIME"; //	Pick-up time
+	public static final List<String> BOOKING_DETAILS_SUBLABELS = Arrays.asList("Vehicle type", "Issued by driver", "Issued to", "Booking code", "Pick up location", "Drop off location", "Tag");
 	private final String pickUpTimeIdentifier = "Pick-up time:";
 	private final String vehicleTypeIdentifier = "Vehicle type:";
 	private final String issuedByDriverIdentifier = "Issued by driver";
@@ -18,21 +25,36 @@ public class BookingDetails {
 	private final String dropOffLocationIdentifier = "Drop off location:";
 	private final String tagIdentifier = "Tag:";	
 	private Element body;
+	private Row row;
 	private Map<String, Object> bookingDetails = new HashMap<String, Object>();
+	
+	public BookingDetails() { }
 
-	public BookingDetails(Element body) { 
+	public BookingDetails(Element body) {
 		this.body = body;
-		setValue(vehicleTypeIdentifier);
-		setValue(issuedByDriverIdentifier);
-		setValue(issuedToIdentifier);
-		setValue(bookingCodeIdentifier);
-		setValue(pickUpLocationIdentifier);
-		setValue(dropOffLocationIdentifier);
-		setValue(pickUpTimeIdentifier);
-		setValue(tagIdentifier);
+		setValueFromHtml(vehicleTypeIdentifier);
+		setValueFromHtml(issuedByDriverIdentifier);
+		setValueFromHtml(issuedToIdentifier);
+		setValueFromHtml(bookingCodeIdentifier);
+		setValueFromHtml(pickUpLocationIdentifier);
+		setValueFromHtml(dropOffLocationIdentifier);
+		setValueFromHtml(pickUpTimeIdentifier);
+		setValueFromHtml(tagIdentifier);
+	}
+	
+	public BookingDetails(Row row) {
+		this.row = row;
+		setValueFromRow(vehicleTypeIdentifier);
+		setValueFromRow(issuedByDriverIdentifier);
+		setValueFromRow(issuedToIdentifier);
+		setValueFromRow(bookingCodeIdentifier);
+		setValueFromRow(pickUpLocationIdentifier);
+		setValueFromRow(dropOffLocationIdentifier);
+		setValueFromRow(pickUpTimeIdentifier);
+		setValueFromRow(tagIdentifier);
 	}
 		
-	private void setValue(String identifier) {
+	private void setValueFromHtml(String identifier) {
 		String value = new String();
 		if (!identifier.equals(pickUpTimeIdentifier)) {
 			value = body.select("span:contains(" + identifier + ")").first().parent().select("span").last().text();
@@ -46,6 +68,22 @@ public class BookingDetails {
 				System.out.println("Error encountered when parsing data: " + e.getMessage());
 			}			
 		}	
+	}
+	
+	private void setValueFromRow(String identifier) {
+		int index = BOOKING_DETAILS_SUBLABELS.indexOf(identifier) + 2;
+		CellType cellType = row.getCell(index).getCellTypeEnum();
+		switch (cellType) {
+			case NUMERIC:
+				setMap(identifier, row.getCell(index).getNumericCellValue());
+				break;
+			case BLANK:
+				setMap(identifier, null);
+				break;
+			case STRING:
+			default:
+				setMap(identifier, row.getCell(index).getStringCellValue());				
+		}
 	}
 	
 	public Date getPickUpTime() {
@@ -90,5 +128,9 @@ public class BookingDetails {
 	
 	public Map<String, Object> getMap() {
 		return bookingDetails;		
+	}
+	
+	public String identifierAtIndex(int index) {
+		return BOOKING_DETAILS_SUBLABELS.get(index);
 	}
 }

@@ -67,9 +67,9 @@ public class SpreadsheetTemplate {
 	}
 	
 	private void titleNameRow() {
-		Row titleNameRow = sheet.createRow(SHEET_NAME_ROW);
-		titleNameRow.setHeightInPoints((short) 24);
-		new WriteCell.WriteCellBuilder(workbook, sheet, titleNameRow, 0).value(sheetName).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.GREEN.getIndex()).height(20).bold(true).build().getFont()).cellColumnWidth(HEADERS_CELL, 4000).build();
+		Row titleRow = sheet.createRow(SHEET_NAME_ROW);
+		titleRow.setHeightInPoints((short) 24);
+		new WriteCell.WriteCellBuilder(workbook, sheet, titleRow, 0).value(sheetName).cellStyleFont(new SpreadsheetFont.SpreadsheetFontBuilder(workbook).color(HSSFColor.HSSFColorPredefined.GREEN.getIndex()).height(20).bold(true).build().getFont()).cellColumnWidth(HEADERS_CELL, 4000).build();
 	}
 	
 	private void headerDatesRow(Integer rowIndex, Integer cellIndex, Object cellValue, WriteCell.DataType dataType, XSSFFont font, HorizontalAlignment alignment, Integer adjustCellColumnWidth) throws ParseException {

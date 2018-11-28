@@ -1,9 +1,18 @@
 package model;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.jsoup.nodes.Element;
 
 public class ReceiptSummary {
+	public final String RECEIPT_SUMMARY_LABEL = "Receipt Summary";
+	public final String TOTAL_FARE_LABEL = "TOTAL"; //	Total fare
+	public static final List<String> RECEIPT_SUMMARY_SUBLABELS = Arrays.asList("Payment Method", "Ride Fare", "Base Fare", "Adjustment for Min Fare", "Distance", "Time", "Surge Charges", "Share Discount", "Promotion");
 	private final String totalAmountIdentifier = "TOTAL";
 	private final String paymentMethodIdentifier = "Payment Method";
 	private final String rideFareIdentifier = "Ride Fare";
@@ -15,66 +24,72 @@ public class ReceiptSummary {
 	private final String shareDiscountIdentifier = "Share Discount";
 	private final String promotionAmountIdentifier = "Promotion";
 	private Element body;
+	private Row row;
 	private Map<String, Object> receiptSummary = new HashMap<String, Object>();
+	
+	public ReceiptSummary() { }
 
 	public ReceiptSummary(Element body) {
 		 this.body = body;
-		 setValue(paymentMethodIdentifier);
-		 setValue(totalAmountIdentifier);		 
-		 try {
-			 setValue(rideFareIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + rideFareIdentifier + "] not found: " + e.getMessage());
-		 }
-		 try {
-			 setValue(baseFareIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + baseFareIdentifier + "] not found: " + e.getMessage());
-		 }
-		 try {
-			 setValue(adjustmentMinFareIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + adjustmentMinFareIdentifier + "] not found: " + e.getMessage());
-		 } 
-		 try {
-			 setValue(distanceAmountIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + distanceAmountIdentifier + "] not found: " + e.getMessage());
-		 } 
-		 try {
-			 setValue(timeAmountIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + timeAmountIdentifier + "] not found: " + e.getMessage());
-		 }
-		 try {
-			 setValue(surgeChargesIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + surgeChargesIdentifier + "] not found: " + e.getMessage());
-		 }
-		 try {
-			 setValue(shareDiscountIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + shareDiscountIdentifier + "] not found: " + e.getMessage());
-		 }
-		 try {
-			 setValue(promotionAmountIdentifier);
-		 } catch (NullPointerException e) {
-			 System.out.println("[" + promotionAmountIdentifier + "] not found: " + e.getMessage());
-		 }
+		 setValueFromHtml(paymentMethodIdentifier);
+		 setValueFromHtml(totalAmountIdentifier);
+		 setValueFromHtml(rideFareIdentifier);
+		 setValueFromHtml(baseFareIdentifier);
+		 setValueFromHtml(adjustmentMinFareIdentifier);
+		 setValueFromHtml(distanceAmountIdentifier);
+		 setValueFromHtml(timeAmountIdentifier);
+		 setValueFromHtml(surgeChargesIdentifier);
+		 setValueFromHtml(shareDiscountIdentifier);
+		 setValueFromHtml(promotionAmountIdentifier);
 	}
 	
-	private void setValue(String identifier) {
+	public ReceiptSummary(Row row) {
+		this.row = row;
+		setValueFromRow(paymentMethodIdentifier);
+		setValueFromRow(totalAmountIdentifier);
+		setValueFromRow(rideFareIdentifier);
+		setValueFromRow(baseFareIdentifier);
+		setValueFromRow(adjustmentMinFareIdentifier);
+		setValueFromRow(distanceAmountIdentifier);
+		setValueFromRow(timeAmountIdentifier);
+		setValueFromRow(surgeChargesIdentifier);
+		setValueFromRow(shareDiscountIdentifier);
+		setValueFromRow(promotionAmountIdentifier);
+	}
+	
+	private void setValueFromHtml(String identifier) {
 		String value = new String();
 		if (identifier.equals(paymentMethodIdentifier)) {
 			value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").select("span").first().text();
 			setMap(identifier, value);
 		} else {
-			value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").first().nextElementSibling().text();
 			try {
+				value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").first().nextElementSibling().text();
 				setMap(identifier, Double.parseDouble(value.trim().replaceAll("[\\sP]", "")));
-			} catch (NumberFormatException e) {
-				System.out.println("Error encountered when parsing data: " + e.getMessage());
+			} catch (NullPointerException | NumberFormatException e) {
+				System.out.println("[" + identifier + "] not found: " + e.getMessage());
+				setMap(identifier, null);
 			}			
+		}
+	}
+	
+	private void setValueFromRow(String identifier) {
+		int index = RECEIPT_SUMMARY_SUBLABELS.indexOf(identifier) + BookingDetails.BOOKING_DETAILS_SUBLABELS.size() + 2;
+		try {
+			CellType cellType = row.getCell(index, MissingCellPolicy.RETURN_NULL_AND_BLANK).getCellTypeEnum();
+			switch (cellType) {
+				case NUMERIC:
+					setMap(identifier, row.getCell(index).getNumericCellValue());
+					break;
+				case BLANK:
+					setMap(identifier, null);
+					break;
+				case STRING:
+				default:
+					setMap(identifier, row.getCell(index).getStringCellValue());
+			}
+		} catch (NullPointerException e) {
+			setMap(identifier, null);
 		}
 	}
 	
@@ -123,5 +138,9 @@ public class ReceiptSummary {
 	
 	public Map<String, Object> getMap() {
 		return receiptSummary;		
+	}
+	
+	public String identifierAtIndex(int index) {
+		return RECEIPT_SUMMARY_SUBLABELS.get(index);
 	}
 }
