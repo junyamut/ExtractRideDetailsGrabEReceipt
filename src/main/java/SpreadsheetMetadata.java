@@ -145,8 +145,10 @@ public class SpreadsheetMetadata {
 				if (this.title != null && !this.title.isEmpty()) {
 					core.setTitle(this.title);
 				}
-				custom.addProperty("Data-boundary", this.dataBoundary);
-				custom.addProperty("Data-rows", this.dataRows);
+				CTProperty dataBoundary = custom.getProperty("Data-boundary");
+				dataBoundary.setLpwstr(this.dataBoundary);
+				CTProperty dataRows = custom.getProperty("Data-rows");
+				dataRows.setI4(this.dataRows);
 				return new SpreadsheetMetadata(this);
 			} else {
 				if (this.title == null) {
