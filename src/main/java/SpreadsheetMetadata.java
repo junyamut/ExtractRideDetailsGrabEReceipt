@@ -7,7 +7,9 @@ public class SpreadsheetMetadata {
 	public static final String META_DESCRIPTION = "Extract Ride Details from Grab E-Receipts";
 	public static final String META_KEYWORDS = "Grab, E-Receipt, Ride-Summary, Ride-Details";
 	public static final String META_CATEGORY = "Transportation Expense";
-	public static final String META_DATA_BOUNDARY = "NO-DATA";	
+	public static final String META_DATA_BOUNDARY_KEY = "Data-boundary";
+	public static final String META_DATA_BOUNDARY_VALUE = "NO-DATA";
+	public static final String META_DATA_ROWS_KEY = "Data-rows";
 	private POIXMLProperties properties;
 	private POIXMLProperties.CoreProperties core;
 	private POIXMLProperties.CustomProperties custom;
@@ -19,6 +21,9 @@ public class SpreadsheetMetadata {
 		this.properties = properties;
 		this.core = properties.getCoreProperties();
 		this.custom = properties.getCustomProperties();
+		this.title = properties.getCoreProperties().getTitle();
+		this.dataBoundary = properties.getCustomProperties().getProperty(META_DATA_BOUNDARY_KEY).getLpwstr();
+		this.dataRows = properties.getCustomProperties().getProperty(META_DATA_ROWS_KEY).getI4();
 	}
 	
 	public SpreadsheetMetadata(SpreadsheetMetadataBuilder builder) {
@@ -98,7 +103,7 @@ public class SpreadsheetMetadata {
 		private boolean modifyOnly;				
 
 		public SpreadsheetMetadataBuilder() {
-			this.dataBoundary = META_DATA_BOUNDARY;
+			this.dataBoundary = META_DATA_BOUNDARY_VALUE;
 			this.dataRows = 0;			
 		}
 		
@@ -106,7 +111,7 @@ public class SpreadsheetMetadata {
 			this.properties = properties;
 			this.core = properties.getCoreProperties();
 			this.custom = properties.getCustomProperties();
-			this.dataBoundary = META_DATA_BOUNDARY;
+			this.dataBoundary = META_DATA_BOUNDARY_VALUE;
 			this.dataRows = 0;
 		}
 		
@@ -159,8 +164,8 @@ public class SpreadsheetMetadata {
 				core.setKeywords(META_KEYWORDS);
 				core.setCategory(META_CATEGORY);
 				core.setTitle(this.title);				
-				custom.addProperty("Data-boundary", this.dataBoundary);
-				custom.addProperty("Data-rows", this.dataRows);		
+				custom.addProperty(META_DATA_BOUNDARY_KEY, this.dataBoundary);
+				custom.addProperty(META_DATA_ROWS_KEY, this.dataRows);		
 				return new SpreadsheetMetadata(this);
 			}
 		}
