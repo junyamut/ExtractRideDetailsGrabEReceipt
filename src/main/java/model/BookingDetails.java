@@ -71,18 +71,22 @@ public class BookingDetails {
 	}
 	
 	private void setValueFromRow(String identifier) {
-		int index = BOOKING_DETAILS_SUBLABELS.indexOf(identifier) + 2;
-		CellType cellType = row.getCell(index).getCellTypeEnum();
-		switch (cellType) {
-			case NUMERIC:
-				setMap(identifier, row.getCell(index).getNumericCellValue());
-				break;
-			case BLANK:
-				setMap(identifier, null);
-				break;
-			case STRING:
-			default:
-				setMap(identifier, row.getCell(index).getStringCellValue());				
+		if (identifier.equals(pickUpTimeIdentifier)) {
+			setMap(identifier, row.getCell(0).getDateCellValue());
+		} else {
+			int index = BOOKING_DETAILS_SUBLABELS.indexOf(sanitizeIdentifier(identifier)) + 2;
+			CellType cellType = row.getCell(index).getCellTypeEnum();
+			switch (cellType) {
+				case NUMERIC:
+					setMap(identifier, row.getCell(index).getNumericCellValue());
+					break;
+				case BLANK:
+					setMap(identifier, null);
+					break;
+				case STRING:
+				default:
+					setMap(identifier, row.getCell(index).getStringCellValue());				
+			}
 		}
 	}
 	

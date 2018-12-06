@@ -74,22 +74,26 @@ public class ReceiptSummary {
 	}
 	
 	private void setValueFromRow(String identifier) {
-		int index = RECEIPT_SUMMARY_SUBLABELS.indexOf(identifier) + BookingDetails.BOOKING_DETAILS_SUBLABELS.size() + 2;
-		try {
-			CellType cellType = row.getCell(index, MissingCellPolicy.RETURN_NULL_AND_BLANK).getCellTypeEnum();
-			switch (cellType) {
-				case NUMERIC:
-					setMap(identifier, row.getCell(index).getNumericCellValue());
-					break;
-				case BLANK:
-					setMap(identifier, null);
-					break;
-				case STRING:
-				default:
-					setMap(identifier, row.getCell(index).getStringCellValue());
+		if (identifier.equals(totalAmountIdentifier)) {
+			setMap(identifier, row.getCell(1).getNumericCellValue());
+		} else {
+			int index = RECEIPT_SUMMARY_SUBLABELS.indexOf(identifier) + BookingDetails.BOOKING_DETAILS_SUBLABELS.size() + 2;
+			try {
+				CellType cellType = row.getCell(index, MissingCellPolicy.RETURN_NULL_AND_BLANK).getCellTypeEnum();
+				switch (cellType) {
+					case NUMERIC:
+						setMap(identifier, row.getCell(index).getNumericCellValue());
+						break;
+					case BLANK:
+						setMap(identifier, null);
+						break;
+					case STRING:
+					default:
+						setMap(identifier, row.getCell(index).getStringCellValue());
+				}
+			} catch (NullPointerException e) {
+				setMap(identifier, null);
 			}
-		} catch (NullPointerException e) {
-			setMap(identifier, null);
 		}
 	}
 	
