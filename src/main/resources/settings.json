@@ -1,0 +1,11 @@
+{
+  "app": {
+    "name": "Extract Ride Details from Grab E-Receipt to Spreadsheet",
+    "inputDir": "receipts",
+    "outputDir": "workbooks"
+  },
+  "workbook": {
+  	"name": "My Grab Rides.xlsx",
+  	"title": "My Grab Rides"
+  }
+}
