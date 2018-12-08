@@ -145,19 +145,19 @@ public class SpreadsheetMetadata {
 		public SpreadsheetMetadata build() {
 			if (this.modifyOnly == true) {				
 				if (this.dataBoundary == null || this.dataRows == null) {
-					throw new NullPointerException();
+					throw new NullPointerException("No metadata values set.");
 				}
 				if (this.title != null && !this.title.isEmpty()) {
 					core.setTitle(this.title);
 				}
-				CTProperty dataBoundary = custom.getProperty("Data-boundary");
+				CTProperty dataBoundary = custom.getProperty(META_DATA_BOUNDARY_KEY);
 				dataBoundary.setLpwstr(this.dataBoundary);
-				CTProperty dataRows = custom.getProperty("Data-rows");
+				CTProperty dataRows = custom.getProperty(META_DATA_ROWS_KEY);
 				dataRows.setI4(this.dataRows);
 				return new SpreadsheetMetadata(this);
 			} else {
 				if (this.title == null) {
-					throw new NullPointerException("Assign a valid spreadsheet title!");
+					throw new NullPointerException("Assign a valid spreadsheet title.");
 				}
 				core.setCreator("Apache POI on Java " + System.getProperty("java.version"));		
 				core.setDescription(META_DESCRIPTION);		

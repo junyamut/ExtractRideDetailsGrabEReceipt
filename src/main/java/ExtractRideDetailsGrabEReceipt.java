@@ -7,29 +7,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.POIXMLProperties.CoreProperties;
 import org.apache.poi.openxml4j.util.Nullable;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import helper.FilesList;
-import helper.SortByRideDate;
 import model.EReceipt;
 
 public class ExtractRideDetailsGrabEReceipt {
-	public static final String SHEET_NAME = "My Grab Rides";
-	public static final String WORKBOOK_NAME = "My Grab Rides.xlsx";
-	public static final String SOURCE_DIR = "receipts";
-	public static final String OUTPUT_DIR = "workbooks";
 	private Path workbookPath;
 	private Path outputPath;
 	private FileInputStream fileInputStream;
@@ -38,11 +27,13 @@ public class ExtractRideDetailsGrabEReceipt {
 	private SpreadsheetTemplate template;
 	private String dataBoundary;
 	private int dataRows;
-
-	public ExtractRideDetailsGrabEReceipt() throws IOException, ParseException {		
-		createOutputPath(OUTPUT_DIR, WORKBOOK_NAME);		
+	private ArrayList<EReceipt> receiptsList;
+	private ArrayList<String> bookingCodesList;
+	
+	public ExtractRideDetailsGrabEReceipt() throws IOException, ParseException {
+		createOutputPath(Properties.getProperties().getApp().getOutputDir(), Properties.getProperties().getWorkbook().getName());		
 		try {
-			outputPath = Paths.get(System.getProperty("user.dir"), OUTPUT_DIR, WORKBOOK_NAME);
+			outputPath = Paths.get(System.getProperty("user.dir"), Properties.getProperties().getApp().getOutputDir(), Properties.getProperties().getWorkbook().getName());
 			if (!Files.exists(workbookPath)) {
 				workbook = createSpreadsheetTemplate();						
 			} else {
@@ -51,39 +42,38 @@ public class ExtractRideDetailsGrabEReceipt {
 				fileInputStream.close();
 			}
 			sheet = workbook.getSheetAt(0);
-			extract();			
-			setExtraMetadata();
+			receiptsList = DataFromFiles.getReceiptsDataList();
+			bookingCodesList = new ArrayList<String>();
+			if (!getMetadataDataBoundary().equals(SpreadsheetMetadata.META_DATA_BOUNDARY_VALUE)) {
+				readReceiptsDataFromSheet();
+			}
+			writeReceiptsDataToSheet();
+			if (dataRows > 0) setExtraMetadata();
 			writeWorkbook();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	private void extract() throws IOException {
-		ArrayList<EReceipt> receiptsList = new ArrayList<EReceipt>();
+	private void writeReceiptsDataToSheet() {
 		int numRows = 0;
         int lastDataRow = sheet.getLastRowNum();
         int startRow = lastDataRow + 1;
         SpreadsheetWriter writer;
-        File input;
-		Document document;
-		Iterator<Path> iterator1 = getFilesList().iterator();
-		while (iterator1.hasNext()) {
-			Path filePath = iterator1.next();
-			input = new File(filePath.toString());
-			document = Jsoup.parse(input, "UTF-8");
-			receiptsList.add(new EReceipt(document));
-			Collections.sort(receiptsList, new SortByRideDate());
-		}
-		Iterator<EReceipt> iterator2 = receiptsList.iterator();
-		while (iterator2.hasNext()) {
+		Iterator<EReceipt> iterator = receiptsList.iterator();
+		while (iterator.hasNext()) {
 			numRows++;
 			Row row = sheet.createRow(startRow);
-			Map<String, Object> map = iterator2.next().getMap();
+			Map<String, Object> map = iterator.next().getMap();
+			String bookingCode = map.get("Booking code").toString();
+			if (hasBookingCode(bookingCode)) {
+				System.out.println("Skipping this E-Receipt with booking code: " + bookingCode); 
+				continue;
+			}
 			writer = new SpreadsheetWriter(workbook, sheet, row, map);
-			if (!iterator2.hasNext()) {
+			if (!iterator.hasNext()) {
 				writer.setColumnAutoResize(true);
-				dataBoundary = map.get("Booking code").toString();
+				dataBoundary = bookingCode;
 				dataRows = numRows;
 			}
 			try {
@@ -96,6 +86,18 @@ public class ExtractRideDetailsGrabEReceipt {
 		}
 	}
 	
+	private void readReceiptsDataFromSheet() throws IOException {		
+		int dataRowStart = SpreadsheetTemplate.SHEET_DATA_START_ROW;
+		int dataBoundaryRow = sheet.getLastRowNum();
+		for (int index = dataRowStart; index < dataBoundaryRow; index++) {
+			bookingCodesList.add(new EReceipt(sheet.getRow(index)).getBookingDetails().getBookingCode().toString());
+		}
+	}
+	
+	private boolean hasBookingCode(String bookingCode) {
+		return bookingCodesList.contains(bookingCode);
+	}
+	
 	private void createOutputPath(String sourceDir, String workbookName) throws IOException {
 		Path dir = Paths.get(sourceDir);
 		try {
@@ -105,15 +107,9 @@ public class ExtractRideDetailsGrabEReceipt {
 		}
 		workbookPath = Paths.get(dir.getFileName().toString(), workbookName);
 	}
-		
-	private List<Path> getFilesList() {
-		Path sourcePath = Paths.get(System.getProperty("user.dir"), SOURCE_DIR);
-		FilesList filesList = new FilesList(sourcePath);
-		return filesList.getList();
-	}
 	
 	private XSSFWorkbook createSpreadsheetTemplate() throws IOException, ParseException {
-		template = new SpreadsheetTemplate(SHEET_NAME);
+		template = new SpreadsheetTemplate(Properties.getProperties().getWorkbook().getTitle());
 		return template.create();
 	}
 	
@@ -133,6 +129,10 @@ public class ExtractRideDetailsGrabEReceipt {
 		CoreProperties coreProperties = metaData.getCoreProperties();
 		coreProperties.setModified(new Nullable<Date>(new Date()));
 		new WriteCell.WriteCellBuilder(workbook, sheet, sheet.getRow(SpreadsheetTemplate.UPDATE_DATE_LABEL_ROW), SpreadsheetTemplate.HEADERS_CELL + 1).value(coreProperties.getModified()).cellStyleDataType(WriteCell.DataType.DateTime).build();		
+	}
+	
+	private String getMetadataDataBoundary() {
+		return new SpreadsheetMetadata(workbook.getProperties()).getDataBoundary().toString();		
 	}
 
 	public static void main(String[] args) {

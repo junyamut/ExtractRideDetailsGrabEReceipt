@@ -60,9 +60,9 @@ public class BookingDetails {
 			value = body.select("span:contains(" + identifier + ")").first().parent().select("span").last().text();
 			setMap(identifier, value);
 		} else {
-			value = body.select("tr:contains(" + identifier + ")").last().parent().select("td").last().select("span").first().text();
-			DateFormat read = new SimpleDateFormat("dd MMM yy HH:mm Z");
 			try {
+				value = body.select("tr:contains(" + identifier + ")").last().parent().select("td").last().select("span").first().text();
+				DateFormat read = new SimpleDateFormat("dd MMM yy HH:mm Z");			
 				setMap(identifier, read.parse(value));
 			} catch (ParseException e) {
 				System.out.println("Error encountered when parsing data: " + e.getMessage());

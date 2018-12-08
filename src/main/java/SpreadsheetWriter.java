@@ -56,7 +56,7 @@ public class SpreadsheetWriter {
 		Iterator<Map.Entry<String, Object>> iterator = dataMap.entrySet().iterator();		
 		while (iterator.hasNext()) {
 			Map.Entry<String, Object> data = iterator.next();
-			System.out.println("Getting next pair>> " + data.getKey() + ": " + data.getValue());
+			System.out.println("Getting next pair > " + data.getKey() + ": " + data.getValue());
 			// The column is the Header index value from BD + RS List<String> BOOKING_DETAILS_SUBLABELS & List<String> RECEIPT_SUMMARY_SUBLABELS combined
 			column = eReceipt.getColumnHeaderIndex(data.getKey().toString().trim());
 			// If column is found it should have an index >= 0
