@@ -27,6 +27,7 @@ public class ExtractRideDetailsGrabEReceipt {
 	private SpreadsheetTemplate template;
 	private String dataBoundary;
 	private int dataRows;
+	private int addedRows;
 	private ArrayList<EReceipt> receiptsList;
 	private ArrayList<String> bookingCodesList;
 	
@@ -41,14 +42,13 @@ public class ExtractRideDetailsGrabEReceipt {
 				workbook = new XSSFWorkbook(fileInputStream);
 				fileInputStream.close();
 			}
+			dataRows = getMetadataDataRows();
 			sheet = workbook.getSheetAt(0);
-			receiptsList = DataFromFiles.getReceiptsDataList();
+			receiptsList = DataFromFiles.getReceiptsData();
 			bookingCodesList = new ArrayList<String>();
-			if (!getMetadataDataBoundary().equals(SpreadsheetMetadata.META_DATA_BOUNDARY_VALUE)) {
-				readReceiptsDataFromSheet();
-			}
+			if (!getMetadataDataBoundary().equals(SpreadsheetMetadata.META_DATA_BOUNDARY_VALUE)) readReceiptsDataFromSheet();
 			writeReceiptsDataToSheet();
-			if (dataRows > 0) setExtraMetadata();
+			if (addedRows > 0) setExtraMetadata();
 			writeWorkbook();
 		} catch (IOException | ParseException e) {
 			e.printStackTrace();
@@ -56,25 +56,21 @@ public class ExtractRideDetailsGrabEReceipt {
 	}
 	
 	private void writeReceiptsDataToSheet() {
-		int numRows = 0;
-        int lastDataRow = sheet.getLastRowNum();
-        int startRow = lastDataRow + 1;
+		addedRows = 0;
+        int startRow = SpreadsheetTemplate.SHEET_DATA_START_ROW + dataRows;
         SpreadsheetWriter writer;
 		Iterator<EReceipt> iterator = receiptsList.iterator();
-		while (iterator.hasNext()) {
-			numRows++;
+		while (iterator.hasNext()) {			
 			Row row = sheet.createRow(startRow);
 			Map<String, Object> map = iterator.next().getMap();
 			String bookingCode = map.get("Booking code").toString();
-			if (hasBookingCode(bookingCode)) {
-				System.out.println("Skipping this E-Receipt with booking code: " + bookingCode); 
-				continue;
-			}
+			if (hasBookingCode(bookingCode)) continue;
+			addedRows++;
 			writer = new SpreadsheetWriter(workbook, sheet, row, map);
 			if (!iterator.hasNext()) {
 				writer.setColumnAutoResize(true);
 				dataBoundary = bookingCode;
-				dataRows = numRows;
+				dataRows += addedRows;
 			}
 			try {
 				writer.writeData();
@@ -86,10 +82,9 @@ public class ExtractRideDetailsGrabEReceipt {
 		}
 	}
 	
-	private void readReceiptsDataFromSheet() throws IOException {		
-		int dataRowStart = SpreadsheetTemplate.SHEET_DATA_START_ROW;
-		int dataBoundaryRow = sheet.getLastRowNum();
-		for (int index = dataRowStart; index < dataBoundaryRow; index++) {
+	private void readReceiptsDataFromSheet() throws IOException {
+		int dataBoundaryRow = SpreadsheetTemplate.SHEET_DATA_START_ROW + dataRows;
+		for (int index = SpreadsheetTemplate.SHEET_DATA_START_ROW; index < dataBoundaryRow; index++) {
 			bookingCodesList.add(new EReceipt(sheet.getRow(index)).getBookingDetails().getBookingCode().toString());
 		}
 	}
@@ -132,7 +127,11 @@ public class ExtractRideDetailsGrabEReceipt {
 	}
 	
 	private String getMetadataDataBoundary() {
-		return new SpreadsheetMetadata(workbook.getProperties()).getDataBoundary().toString();		
+		return new SpreadsheetMetadata(workbook.getProperties()).getDataBoundary();		
+	}
+	
+	private Integer getMetadataDataRows() {
+		return new SpreadsheetMetadata(workbook.getProperties()).getDataRows();		
 	}
 
 	public static void main(String[] args) {
