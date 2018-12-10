@@ -15,17 +15,24 @@ public class DataFromFiles extends EReciptsFilePaths {
 	
 	public DataFromFiles() { }
 	
-	public static ArrayList<EReceipt> getReceiptsDataList() {
+	static {
 		receiptsList = new ArrayList<EReceipt>();
-		Iterator<Path> iterator = getPaths().iterator();
+		setReceiptsData();
+		Collections.sort(receiptsList, new SortByRideDate());
+	}
+	
+	private static void setReceiptsData() {
+		Iterator<Path> iterator = getList().iterator();
 		while (iterator.hasNext()) {
 			try {
 				receiptsList.add(new EReceipt(Jsoup.parse(new File(iterator.next().toString()), "UTF-8")));							
 			} catch (IOException e) {
 				System.out.println("Error reading E-Receipt files: " + e.getMessage());
 			}			
-		}
-		Collections.sort(receiptsList, new SortByRideDate());
+		}	
+	}
+	
+	public static ArrayList<EReceipt> getReceiptsData() {
 		return receiptsList;
-	}	
+	}
 }

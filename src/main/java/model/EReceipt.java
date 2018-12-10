@@ -22,7 +22,7 @@ public class EReceipt {
 		this.receiptSummary = new ReceiptSummary(row);
 	}
 
-	public EReceipt(Document document) {	
+	public EReceipt(Document document) {
 		this.bookingDetails = new BookingDetails(document.body());
 		this.receiptSummary = new ReceiptSummary(document.body());
 	}

@@ -6,19 +6,21 @@ import java.util.List;
 import helper.FilesList;
 
 public class EReciptsFilePaths {
-	protected static Path sourcePath;
+	protected static Path sourceDir;
 	protected static FilesList filesList;
 
-	public EReciptsFilePaths() { }	
+	public EReciptsFilePaths() { }
 	
-	public static List<Path> getPaths() {
+	static {
 		try {
-			sourcePath = Paths.get(System.getProperty("user.dir"), Properties.getProperties().getApp().getInputDir());
-			filesList = new FilesList(sourcePath);
+			sourceDir = Paths.get(System.getProperty("user.dir"), Properties.getProperties().getApp().getInputDir());
+			filesList = new FilesList(sourceDir);
 		} catch (IOException e) {
-			System.out.println("Error reading files from source directory: " + e.getMessage());
+			System.out.println(e.getMessage());
 		}
+	}
+	
+	public static List<Path> getList() {
 		return filesList.getList();
 	}
-
 }
