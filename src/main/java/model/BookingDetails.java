@@ -15,7 +15,7 @@ import org.jsoup.nodes.Element;
 public class BookingDetails {
 	public final String BOOKING_DETAILS_LABEL = "Booking Details";
 	public final String RIDE_DATETIME_LABEL = "DATE | TIME"; //	Pick-up time
-	public static final List<String> BOOKING_DETAILS_SUBLABELS = Arrays.asList("Vehicle type", "Issued by driver", "Issued to", "Booking code", "Pick up location", "Drop off location", "Tag");
+	public static final List<String> BOOKING_DETAILS_SUBLABELS = Arrays.asList("Vehicle type", "Issued by driver", "Issued to", "Booking code", "Pick up location", "Drop off location", "Tag", "Profile");
 	private final String pickUpTimeIdentifier = "Pick-up time:";
 	private final String vehicleTypeIdentifier = "Vehicle type:";
 	private final String issuedByDriverIdentifier = "Issued by driver";
@@ -23,7 +23,8 @@ public class BookingDetails {
 	private final String bookingCodeIdentifier = "Booking code";
 	private final String pickUpLocationIdentifier = "Pick up location:";
 	private final String dropOffLocationIdentifier = "Drop off location:";
-	private final String tagIdentifier = "Tag:";	
+	private final String tagIdentifier = "Tag:";
+	private final String profileIdentifier = "Profile:";
 	private Element body;
 	private Row row;
 	private Map<String, Object> bookingDetails = new HashMap<String, Object>();
@@ -40,6 +41,7 @@ public class BookingDetails {
 		setValueFromHtml(dropOffLocationIdentifier);
 		setValueFromHtml(pickUpTimeIdentifier);
 		setValueFromHtml(tagIdentifier);
+		setValueFromHtml(profileIdentifier);
 	}
 	
 	public BookingDetails(Row row) {
@@ -52,13 +54,19 @@ public class BookingDetails {
 		setValueFromRow(dropOffLocationIdentifier);
 		setValueFromRow(pickUpTimeIdentifier);
 		setValueFromRow(tagIdentifier);
+		setValueFromRow(profileIdentifier);
 	}
 		
 	private void setValueFromHtml(String identifier) {
 		String value = new String();
 		if (!identifier.equals(pickUpTimeIdentifier)) {
-			value = body.select("span:contains(" + identifier + ")").first().parent().select("span").last().text();
-			setMap(identifier, value);
+			try {
+				value = body.select("span:contains(" + identifier + ")").first().parent().select("span").last().text();
+				setMap(identifier, value);
+			} catch (NullPointerException e) {
+				System.out.println("[" + identifier + "] not found: " + e.getMessage());
+				setMap(identifier, null);
+			}
 		} else {
 			try {
 				value = body.select("tr:contains(" + identifier + ")").last().parent().select("td").last().select("span").first().text();
@@ -66,6 +74,7 @@ public class BookingDetails {
 				setMap(identifier, read.parse(value));
 			} catch (ParseException e) {
 				System.out.println("Error encountered when parsing data: " + e.getMessage());
+				setMap(identifier, null);
 			}			
 		}	
 	}
@@ -120,6 +129,10 @@ public class BookingDetails {
 	
 	public String getTagValue() {
 		return (String) getMap().get(sanitizeIdentifier(tagIdentifier));
+	}
+	
+	public String getProfileValue() {
+		return (String) getMap().get(sanitizeIdentifier(profileIdentifier));
 	}
 	
 	private String sanitizeIdentifier(String identifier) {

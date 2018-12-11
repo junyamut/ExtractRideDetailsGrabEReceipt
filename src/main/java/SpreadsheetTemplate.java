@@ -33,7 +33,7 @@ public class SpreadsheetTemplate {
 	public static final int RIDE_DATE_LABEL_CELL = 0;
 	public static final int TOTAL_FARE_LABEL_CELL = 1;
 	public static final int BOOKING_DETAILS_LABEL_CELL = 2;
-	public static final int RECEIPT_SUMMARY_LABEL_CELL = 9;
+	public static final int RECEIPT_SUMMARY_LABEL_CELL = 10;
 	public static final int SUBLABELS_START_CELL = 2;
 	private SpreadsheetMetadata metadata;
 	private XSSFWorkbook workbook;	
