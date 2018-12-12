@@ -64,7 +64,7 @@ public class BookingDetails {
 				value = body.select("span:contains(" + identifier + ")").first().parent().select("span").last().text();
 				setMap(identifier, value);
 			} catch (NullPointerException e) {
-				System.out.println("[" + identifier + "] not found: " + e.getMessage());
+				System.err.println("[" + identifier + "] not found: " + e.getMessage());
 				setMap(identifier, null);
 			}
 		} else {
@@ -73,7 +73,7 @@ public class BookingDetails {
 				DateFormat read = new SimpleDateFormat("dd MMM yy HH:mm Z");			
 				setMap(identifier, read.parse(value));
 			} catch (ParseException e) {
-				System.out.println("Error encountered when parsing data: " + e.getMessage());
+				System.err.println("Error encountered when parsing data: " + e.getMessage());
 				setMap(identifier, null);
 			}			
 		}	

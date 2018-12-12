@@ -16,7 +16,7 @@ public class EReciptsFilePaths {
 			sourceDir = Paths.get(System.getProperty("user.dir"), Properties.getProperties().getApp().getInputDir());
 			filesList = new FilesList(sourceDir);
 		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 	}
 	

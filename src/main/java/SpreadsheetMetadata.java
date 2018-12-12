@@ -88,7 +88,7 @@ public class SpreadsheetMetadata {
 				return value.getR8();
 			}
 		} catch (NullPointerException e) {
-			System.out.println("Cannot find property with key: " + key);
+			System.err.println("Cannot find property with key: " + key);
 		}
 		return null;
 	}

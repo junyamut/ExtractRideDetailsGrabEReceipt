@@ -67,7 +67,7 @@ public class ReceiptSummary {
 				value = body.select("tr:contains(" + identifier + ")").last().parent().select("td:contains(" + identifier + ")").first().nextElementSibling().text();
 				setMap(identifier, Double.parseDouble(value.trim().replaceAll("[\\sP]", "")));
 			} catch (NullPointerException | NumberFormatException e) {
-				System.out.println("[" + identifier + "] not found: " + e.getMessage());
+				System.err.println("[" + identifier + "] not found: " + e.getMessage());
 				setMap(identifier, null);
 			}			
 		}
@@ -92,6 +92,7 @@ public class ReceiptSummary {
 						setMap(identifier, row.getCell(index).getStringCellValue());
 				}
 			} catch (NullPointerException e) {
+				System.err.println("Error encountered when reading data: " + e.getMessage());
 				setMap(identifier, null);
 			}
 		}

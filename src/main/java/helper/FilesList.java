@@ -17,7 +17,7 @@ public class FilesList {
 		 try {
 			 Files.walkFileTree(sourceDir, fileVisitor);
 		 } catch (IOException e) {
-			 System.out.println("Error encountered: " + e);
+			 System.err.println("Error encountered: " + e);
 		 }
 	}
 		

@@ -28,7 +28,7 @@ public class DataFromFiles extends EReciptsFilePaths {
 			try {
 				receiptsList.add(new EReceipt(Jsoup.parse(new File(iterator.next().toString()), "UTF-8")));							
 			} catch (IOException e) {
-				System.out.println("Error reading E-Receipt files: " + e.getMessage());
+				System.err.println("Error reading E-Receipt files: " + e.getMessage());
 			}			
 		}	
 	}
