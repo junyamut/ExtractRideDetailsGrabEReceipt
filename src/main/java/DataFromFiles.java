@@ -12,17 +12,18 @@ import model.EReceipt;
 
 public class DataFromFiles extends EReciptsFilePaths {
 	private static ArrayList<EReceipt> receiptsList;
+	private static Iterator<Path> iterator;
 	
 	public DataFromFiles() { }
 	
 	static {
 		receiptsList = new ArrayList<EReceipt>();
+		iterator = getList().iterator();
 		setReceiptsData();
 		Collections.sort(receiptsList, new SortByRideDate());
 	}
 	
 	private static void setReceiptsData() {
-		Iterator<Path> iterator = getList().iterator();
 		while (iterator.hasNext()) {
 			try {
 				receiptsList.add(new EReceipt(Jsoup.parse(new File(iterator.next().toString()), "UTF-8")));							
