@@ -16,7 +16,7 @@ public class DataFromWorkbook extends CreateWorkbook {
 		dataStartRow = SpreadsheetTemplate.SHEET_DATA_START_ROW + dataRows;
 	}
 	
-	public static void readBookingCodes() throws IOException {
+	public static void addBookingCodes() throws IOException {
 		for (int index = SpreadsheetTemplate.SHEET_DATA_START_ROW; index < dataStartRow; index++) {
 			bookingCodesList.add(new EReceipt(getSheet().getRow(index)).getBookingDetails().getBookingCode().toString());
 		}

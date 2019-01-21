@@ -19,11 +19,11 @@ public class DataFromFiles extends EReciptsFilePaths {
 	static {
 		receiptsList = new ArrayList<EReceipt>();
 		iterator = getList().iterator();
-		setReceiptsData();
+		addReceiptsData();
 		Collections.sort(receiptsList, new SortByRideDate());
 	}
 	
-	private static void setReceiptsData() {
+	private static void addReceiptsData() {
 		while (iterator.hasNext()) {
 			try {
 				receiptsList.add(new EReceipt(Jsoup.parse(new File(iterator.next().toString()), "UTF-8")));							
