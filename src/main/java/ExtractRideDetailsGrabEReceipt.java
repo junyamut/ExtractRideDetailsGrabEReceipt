@@ -24,7 +24,7 @@ public class ExtractRideDetailsGrabEReceipt {
 			receiptsList = DataFromFiles.getReceiptsData();
 			dataRows = DataFromWorkbook.getDataRows();
 			dataStartRow = DataFromWorkbook.getDataStartRow();
-			if (!DataFromWorkbook.getMetadataDataBoundary().equals(SpreadsheetMetadata.META_DATA_BOUNDARY_VALUE)) DataFromWorkbook.readBookingCodes();
+			if (!DataFromWorkbook.getMetadataDataBoundary().equals(SpreadsheetMetadata.META_DATA_BOUNDARY_VALUE)) DataFromWorkbook.addBookingCodes();
 			writeReceiptsDataToSheet();
 			if (addedRows > 0) CreateWorkbook.setExtraMetadata(dataBoundary, dataRows);
 			CreateWorkbook.writeWorkbook();
