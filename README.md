@@ -1,6 +1,8 @@
 # Extract Ride Details from Grab E-receipt
 #### (terminal application only)
 
+### Note: _This will probably not work as is anymore since the HTML formatting for email receipts from Grab has already changed_
+
 *Description: Extracts all the important booking details / receipt summary of a Grab ride-receipt.*
 
 ## Intro
